@@ -1,0 +1,35 @@
+﻿@model stylist.web.Models.CodeIssuesModel
+<div class="row">
+	<div class="col-md-12">
+		<h1>Code Style Issues</h1>
+		<div class="code-with-issues">
+			@foreach (var line in Model.Lines)
+			{
+				<div class="code-line">
+					@foreach (var span in line.Spans)
+					{
+						if (!span.Issues.Any())
+						{
+							<div class="code-span">@span.Text</div>
+						}
+						else
+						{
+							var issue = span.Issues.First();
+							<div class="code-span span-with-issue" title="@issue.IssueId Issue" data-content="@issue.Description">@span.Text</div>
+						}
+					}
+					<div class="clearfix"></div>
+				</div>
+			}
+		</div>
+	</div>
+</div>
+
+@Html.Partial("CheckYourCodeForm", Model.Code)
+
+@section scripts
+{
+	<script>
+		$(".span-with-issue").popover({trigger:"hover"});
+	</script>
+}

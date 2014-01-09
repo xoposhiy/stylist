@@ -1,0 +1,34 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 2013
+VisualStudioVersion = 12.0.21005.1
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "stylist.web", "stylist.web\stylist.web.csproj", "{51091563-F48F-4D5C-A82E-294C0DA8E1EC}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "stylist", "stylist\stylist.csproj", "{84F8E640-574A-4139-AA5A-C85B12087297}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "stylist.tests", "stylist.tests\stylist.tests.csproj", "{C813CC7A-FC9B-4072-862D-302800B99FE7}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{51091563-F48F-4D5C-A82E-294C0DA8E1EC}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{51091563-F48F-4D5C-A82E-294C0DA8E1EC}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{51091563-F48F-4D5C-A82E-294C0DA8E1EC}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{51091563-F48F-4D5C-A82E-294C0DA8E1EC}.Release|Any CPU.Build.0 = Release|Any CPU
+		{84F8E640-574A-4139-AA5A-C85B12087297}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{84F8E640-574A-4139-AA5A-C85B12087297}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{84F8E640-574A-4139-AA5A-C85B12087297}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{84F8E640-574A-4139-AA5A-C85B12087297}.Release|Any CPU.Build.0 = Release|Any CPU
+		{C813CC7A-FC9B-4072-862D-302800B99FE7}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{C813CC7A-FC9B-4072-862D-302800B99FE7}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{C813CC7A-FC9B-4072-862D-302800B99FE7}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{C813CC7A-FC9B-4072-862D-302800B99FE7}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+EndGlobal
