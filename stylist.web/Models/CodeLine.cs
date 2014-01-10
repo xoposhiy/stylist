@@ -1,11 +1,18 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using Newtonsoft.Json;
 
 namespace stylist.web.Models
 {
 	public class CodeLine
 	{
+		[JsonConstructor]
+		public CodeLine(CodeSpan[] spans)
+		{
+			Spans = spans;
+		}
+
 		public CodeLine(string line, IEnumerable<CodeStyleIssue> codeIssues)
 		{
 			Spans = SplitIntoSpans(line, codeIssues.ToArray())

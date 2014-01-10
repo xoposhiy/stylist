@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using NHunspell;
 using NUnit.Framework;
 
 namespace stylist.tests
@@ -8,6 +9,18 @@ namespace stylist.tests
 	[TestFixture]
 	public class StyleChecker_Test
 	{
+		[TestFixtureSetUp]
+		public void SetUpSpeller()
+		{
+			Speller.Initialize("spell");
+		}
+
+		[TestFixtureTearDown]
+		public void TearDown()
+		{
+			Speller.Dispose();
+		}
+
 		[Test]
 		public void NamingCase()
 		{

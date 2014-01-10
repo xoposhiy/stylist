@@ -20,11 +20,11 @@
 		}
 	}
 }
-//Naming.Case: Use 'CamelCase' naming style for enum members (Line: 5)
-//Naming.Case: Use 'CamelCase' naming style for classes (Line: 9)
-//Naming.Case: Use 'CamelCase' naming style for type parameters (Line: 9)
-//Naming.Case: Use 'camelCase' naming style for fields (Line: 11)
-//Naming.Case: Use 'CamelCase' naming style for fields (Line: 13)
-//Naming.Case: Use 'CamelCase' naming style for methods (Line: 16)
-//Naming.Case: Use 'camelCase' naming style for arguments (Line: 16)
-//Naming.Case: Use 'camelCase' naming style for variables (Line: 18)
+//Naming.Case: Use 'CamelCase' naming here (Line: 5)
+//Naming.Case: Use 'CamelCase' naming here (Line: 9)
+//Naming.Case: Use 'CamelCase' naming here (Line: 9)
+//Naming.Case: Use 'camelCase' naming here (Line: 11)
+//Naming.Case: Use 'CamelCase' naming here (Line: 13)
+//Naming.Case: Use 'CamelCase' naming here (Line: 16)
+//Naming.Case: Use 'camelCase' naming here (Line: 16)
+//Naming.Case: Use 'camelCase' naming here (Line: 18)

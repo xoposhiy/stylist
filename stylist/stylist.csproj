@@ -51,6 +51,9 @@
     <Reference Include="Mono.Cecil.Rocks">
       <HintPath>..\packages\Mono.Cecil.0.9.5.4\lib\net40\Mono.Cecil.Rocks.dll</HintPath>
     </Reference>
+    <Reference Include="NHunspell">
+      <HintPath>..\packages\NHunspell.1.1.1\lib\net\NHunspell.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
     <Reference Include="System.Xml.Linq" />
@@ -62,18 +65,31 @@
   <ItemGroup>
     <Compile Include="AstNodeExtensions.cs" />
     <Compile Include="BaseChecker.cs" />
+    <Compile Include="BaseNamingChecker.cs" />
     <Compile Include="CodeStyleIssue.cs" />
     <Compile Include="MethodLengthChecker.cs" />
+    <Compile Include="NamingChecker.cs" />
     <Compile Include="NamingLengthChecker.cs" />
     <Compile Include="NamingCaseChecker.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="SpellChecker.cs" />
+    <Compile Include="Speller.cs" />
     <Compile Include="StyleChecker.cs" />
     <Compile Include="TextSpan.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
+    <None Include="spell\en_GB.aff">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="spell\en_GB.dic">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <PropertyGroup>
+    <PostBuildEvent>xcopy /s /y "$(SolutionDir)packages\NHunspell.1.1.1\native\*.*" "$(TargetDir)"</PostBuildEvent>
+  </PropertyGroup>
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.
   <Target Name="BeforeBuild">

@@ -1,5 +1,7 @@
 ﻿using System.Collections.Generic;
+using System.Linq;
 using ICSharpCode.NRefactory.CSharp;
+using NHunspell;
 
 namespace stylist
 {
@@ -7,8 +9,9 @@ namespace stylist
 	{
 		private readonly BaseChecker[] checkers;
 
-		public StyleChecker()
-		:this(
+		public StyleChecker(Hunspell speller)
+			:this(
+			new SpellChecker(speller),
 			new NamingCaseChecker(), 
 			new NamingLengthChecker(), 
 			new NamingChecker(), 

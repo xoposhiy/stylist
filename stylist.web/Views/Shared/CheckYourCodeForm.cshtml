@@ -1,13 +1,13 @@
 ﻿@model String
 <div class="row">
 	<div class="col-md-12">
-		@using (Html.BeginForm("Check", "Home", FormMethod.Post, new { style = "" }))
+		@using (Html.BeginForm("Check", "Code", FormMethod.Post, new { style = "" }))
 		{
 			<h1>Paste your C# code here</h1>
 			<div class="form-group">
-				@Html.TextArea("code", Model, new { rows = 20, cols = 80, style = "form-control" })
+				@Html.TextArea("code", Model, new { rows = 20, style = "form-control" })
 			</div>
-			<button class="btn btn-lg btn-primary" type="submit">Sheck Style</button>
+			<button class="btn btn-lg btn-primary" type="submit">Check Style</button>
 		}
 	</div>
 </div>
