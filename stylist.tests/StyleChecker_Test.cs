@@ -18,7 +18,7 @@ namespace stylist.tests
 		[TestFixtureTearDown]
 		public void TearDown()
 		{
-			Speller.Dispose();
+			Speller.DisposeInstance();
 		}
 
 		[Test]

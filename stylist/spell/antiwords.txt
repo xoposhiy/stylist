@@ -1,0 +1,8 @@
+﻿kol
+chislo
+vyvod
+vvod
+vvesti
+flag
+f
+fl

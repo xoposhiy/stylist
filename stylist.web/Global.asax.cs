@@ -18,7 +18,7 @@ namespace stylist.web
 
 		public override void Dispose()
 		{
-			Speller.Dispose();
+			Speller.DisposeInstance();
 		}
 	}
 }

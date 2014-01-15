@@ -2,22 +2,28 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using ICSharpCode.NRefactory.CSharp;
-using NHunspell;
 
 namespace stylist
 {
 	public class SpellChecker : BaseNamingChecker
 	{
-		private readonly Hunspell speller;
+		private readonly Speller speller;
+		private readonly List<string> unknownWords = new List<string>();
 
-		public SpellChecker(Hunspell speller)
+		public SpellChecker(Speller speller)
 		{
 			this.speller = speller;
 		}
 
-		private string FindSpellingError(string camelCaseWords)
+		public IEnumerable<string> UnknownWords { get { return unknownWords; } }
+
+		public string FindSpellingError(string camelCaseWords)
 		{
-			return SplitCamelCase(camelCaseWords).FirstOrDefault(word => !speller.Spell(word));
+			var words = SplitCamelCase(camelCaseWords).ToList();
+			var wrongWords = words.Where(w => !speller.Hunspell.Spell(w)).ToList();
+			foreach (var wrongWord in wrongWords)
+				unknownWords.Add(wrongWord);
+			return wrongWords.Concat(words.Where(w => speller.Antiwords.Contains(w))).FirstOrDefault();
 		}
 
 		private IEnumerable<string> SplitCamelCase(string camelCaseWords)
@@ -27,12 +33,15 @@ namespace stylist
 			{
 				if (char.IsUpper(ch) || !char.IsLetter(ch))
 				{
-					yield return chunk.ToString();
+					if (chunk.Length > 0)
+						yield return chunk.ToString();
 					chunk.Clear();
 				}
-				chunk.Append(ch);
+				if (char.IsLetter(ch))
+					chunk.Append(char.ToLower(ch));
 			}
-			yield return chunk.ToString();
+			if (chunk.Length > 0)
+				yield return chunk.ToString();
 		}
 
 		protected override void CheckName(Identifier identifier, AstNode node)

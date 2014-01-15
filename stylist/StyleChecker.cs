@@ -9,7 +9,7 @@ namespace stylist
 	{
 		private readonly BaseChecker[] checkers;
 
-		public StyleChecker(Hunspell speller)
+		public StyleChecker(Speller speller)
 			:this(
 			new SpellChecker(speller),
 			new NamingCaseChecker(), 
