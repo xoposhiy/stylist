@@ -13,17 +13,25 @@ namespace stylist
 		public SpellChecker(Speller speller)
 		{
 			this.speller = speller;
+			AllowedWords = new string[0];
 		}
+
+		public string[] AllowedWords { get; set; }
 
 		public IEnumerable<string> UnknownWords { get { return unknownWords; } }
 
 		public string FindSpellingError(string camelCaseWords)
 		{
 			var words = SplitCamelCase(camelCaseWords).ToList();
-			var wrongWords = words.Where(w => !speller.Hunspell.Spell(w)).ToList();
+			var wrongWords = words.Where(Incorrect).ToList();
 			foreach (var wrongWord in wrongWords)
 				unknownWords.Add(wrongWord);
 			return wrongWords.Concat(words.Where(w => speller.Antiwords.Contains(w))).FirstOrDefault();
+		}
+
+		private bool Incorrect(string w)
+		{
+			return !speller.Hunspell.Spell(w) && !AllowedWords.Contains(w);
 		}
 
 		private IEnumerable<string> SplitCamelCase(string camelCaseWords)

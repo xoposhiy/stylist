@@ -51,6 +51,9 @@
     <Reference Include="Mono.Cecil.Rocks">
       <HintPath>..\packages\Mono.Cecil.0.9.5.4\lib\net40\Mono.Cecil.Rocks.dll</HintPath>
     </Reference>
+    <Reference Include="Newtonsoft.Json">
+      <HintPath>..\packages\Newtonsoft.Json.5.0.6\lib\net45\Newtonsoft.Json.dll</HintPath>
+    </Reference>
     <Reference Include="NHunspell">
       <HintPath>..\packages\NHunspell.1.1.1\lib\net\NHunspell.dll</HintPath>
     </Reference>
@@ -67,6 +70,7 @@
     <Compile Include="BaseChecker.cs" />
     <Compile Include="BaseNamingChecker.cs" />
     <Compile Include="CodeStyleIssue.cs" />
+    <Compile Include="IntRange.cs" />
     <Compile Include="MethodLengthChecker.cs" />
     <Compile Include="NamingChecker.cs" />
     <Compile Include="NamingLengthChecker.cs" />

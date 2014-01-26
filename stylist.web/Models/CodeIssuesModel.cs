@@ -1,8 +1,14 @@
 namespace stylist.web.Models
 {
-	public class CodeIssuesModel
+
+	public class CodeModel
+	{
+		public string Code;
+		public string Profile;
+	}
+
+	public class CodeIssuesModel : CodeModel
 	{
 		public CodeLine[] Lines;
-		public string Code;
 	}
 }

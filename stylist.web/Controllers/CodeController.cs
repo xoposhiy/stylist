@@ -5,6 +5,7 @@ using System.Security.Cryptography;
 using System.Text;
 using System.Text.RegularExpressions;
 using System.Web.Mvc;
+using Newtonsoft.Json;
 using stylist.web.Models;
 
 namespace stylist.web.Controllers
@@ -14,32 +15,47 @@ namespace stylist.web.Controllers
 		private const string delimiter = "\r\n==code==\r\n";
 		private static readonly MD5 md5 = MD5.Create();
 
-		public ActionResult Index()
+		public ActionResult Index(string profile)
 		{
-			return View();
+			return View(new CodeModel{Profile=SafeProfile(profile)});
 		}
 
 		[ValidateInput(false)]
-		public ActionResult Check(string code)
+		public ActionResult Check(string code, string profile)
 		{
 			string id = CalculateHash(code);
 			string filename = GetFilename(id);
-			CodeStyleIssue[] issues = CodeStyleIssues(code);
+			CheckerOption[] options = LoadCheckerOptions(SafeProfile(profile));
+			CodeStyleIssue[] issues = CodeStyleIssues(code, options);
 			var dateTime = new[]{DateTime.Now.ToString()};
 			string issuesText = string.Join("\r\n", dateTime.Concat(issues.Select(issue => issue.ToString())));
 			System.IO.File.WriteAllText(filename, issuesText + delimiter + code);
-			return RedirectToAction("Issues", new {id});
+			return RedirectToAction("Issues", new {id, profile});
 		}
 
-		public ActionResult Issues(string id)
+		private static string SafeProfile(string profile)
+		{
+			return new string((profile ?? "").Where(char.IsLetter).ToArray());
+		}
+
+		private CheckerOption[] LoadCheckerOptions(string safeProfile)
+		{
+			if (safeProfile == null) return new CheckerOption[0];
+			string profilePath = HttpContext.Server.MapPath("~/App_Data/profiles/" + safeProfile + ".js");
+			if (!System.IO.File.Exists(profilePath)) return new CheckerOption[0];
+			return JsonConvert.DeserializeObject<CheckerOption[]>(System.IO.File.ReadAllText(profilePath));
+		}
+
+		public ActionResult Issues(string id, string profile)
 		{
 			string filename = GetFilename(id);
-			string code = System.IO.File.ReadAllText(filename).Split(new[] {delimiter}, 2, StringSplitOptions.None)[1];
-			CodeStyleIssue[] issues = CodeStyleIssues(code);
+			CheckerOption[] options = LoadCheckerOptions(SafeProfile(profile));
+			string code = System.IO.File.ReadAllText(filename).Split(new[] { delimiter }, 2, StringSplitOptions.None)[1];
+			CodeStyleIssue[] issues = CodeStyleIssues(code, options);
 			CodeLine[] lines =
 				Regex.Split(code, "\r\n|\r|\n")
 					.Select((line, index) => BuildCodeLine(line, index, issues)).ToArray();
-			return View(new CodeIssuesModel {Lines = lines, Code = code});
+			return View(new CodeIssuesModel {Lines = lines, Code = code, Profile = profile});
 		}
 
 		private string GetFilename(string id)
@@ -48,9 +64,9 @@ namespace stylist.web.Controllers
 			return Path.Combine(dataPath, id + ".cs");
 		}
 
-		private static CodeStyleIssue[] CodeStyleIssues(string code)
+		private static CodeStyleIssue[] CodeStyleIssues(string code, CheckerOption[] options)
 		{
-			return new StyleChecker(Speller.Instance).Check(code);
+			return new StyleChecker(Speller.Instance, options).Check(code);
 		}
 
 		private static string CalculateHash(string code)

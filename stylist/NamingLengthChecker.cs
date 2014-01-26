@@ -6,16 +6,35 @@ namespace stylist
 {
 	public class NamingLengthChecker : BaseChecker
 	{
-		private void AddIssues(IEnumerable<Identifier> ids, int minOkLength, int maxOkLength)
+		public IntRange TypeNameLength { get; set; }
+		public IntRange ParameterNameLength { get; set; }
+		public IntRange EnumMemberNameLength { get; set; }
+		public IntRange FieldNameLength { get; set; }
+		public IntRange MethodNameLength { get; set; }
+		public IntRange VariableNameLength { get; set; }
+		public string[] AllowedShortVariableNames { get; set; }
+
+		public NamingLengthChecker()
+		{
+			TypeNameLength = new IntRange(3, 30);
+			ParameterNameLength = new IntRange(3, 20);
+			EnumMemberNameLength = new IntRange(1, 20);
+			FieldNameLength = new IntRange(3, 30);
+			MethodNameLength = new IntRange(3, 30);
+			VariableNameLength = new IntRange(3, 30);
+			AllowedShortVariableNames = new string[0];
+		}
+
+		private void AddIssues(IEnumerable<Identifier> ids, IntRange lengthConstraint)
 		{
 			codeIssues.AddRange(
 				ids
 					.Select(id =>
 						new CodeStyleIssue(
 							"Naming.Length",
-							id.Name.Length < minOkLength
+							id.Name.Length < lengthConstraint.Min
 								? "Too short name"
-								: (id.Name.Length > maxOkLength ? "Too long name" : null),
+								: (id.Name.Length > lengthConstraint.Max ? "Too long name" : null),
 							new TextSpan(id))
 					)
 					.Where(issue => issue.Description != null)
@@ -24,38 +43,38 @@ namespace stylist
 
 		public override void VisitTypeDeclaration(TypeDeclaration typeDeclaration)
 		{
-			AddIssues(new[] {typeDeclaration.NameToken}, 3, 30);
+			AddIssues(new[] {typeDeclaration.NameToken}, TypeNameLength);
 			base.VisitTypeDeclaration(typeDeclaration);
 		}
 
 		public override void VisitParameterDeclaration(ParameterDeclaration parameterDeclaration)
 		{
 			Statement block = parameterDeclaration.Parent.Block();
-			if (block != null && !IsExceptionalName(parameterDeclaration.Name))
-				AddIssues(new[] {parameterDeclaration.NameToken}, block.StatementsCount() > 2 ? 3 : 1, 20);
+			if (block != null && !IsAllowedVariableName(parameterDeclaration.Name))
+				AddIssues(new[] {parameterDeclaration.NameToken}, block.StatementsCount() > 2 ? ParameterNameLength : ParameterNameLength.WithMin(1));
 			base.VisitParameterDeclaration(parameterDeclaration);
 		}
 
-		private bool IsExceptionalName(string name)
+		private bool IsAllowedVariableName(string name)
 		{
-			return new[] {"x", "y", "z"}.Contains(name.ToLower());
+			return AllowedShortVariableNames.Contains(name.ToLower());
 		}
 
 		public override void VisitEnumMemberDeclaration(EnumMemberDeclaration enumMemberDeclaration)
 		{
-			AddIssues(new[] {enumMemberDeclaration.NameToken}, 1, 30);
+			AddIssues(new[] {enumMemberDeclaration.NameToken}, EnumMemberNameLength);
 			base.VisitEnumMemberDeclaration(enumMemberDeclaration);
 		}
 
 		public override void VisitFieldDeclaration(FieldDeclaration fieldDeclaration)
 		{
-			AddIssues(fieldDeclaration.Variables.Where(v => !IsExceptionalName(v.Name)).Select(v => v.NameToken), 3, 30);
+			AddIssues(fieldDeclaration.Variables.Where(v => !IsAllowedVariableName(v.Name)).Select(v => v.NameToken), FieldNameLength);
 			base.VisitFieldDeclaration(fieldDeclaration);
 		}
 
 		public override void VisitMethodDeclaration(MethodDeclaration methodDeclaration)
 		{
-			AddIssues(new[] {methodDeclaration.NameToken}, 3, 30);
+			AddIssues(new[] {methodDeclaration.NameToken}, MethodNameLength);
 			base.VisitMethodDeclaration(methodDeclaration);
 		}
 
@@ -64,13 +83,12 @@ namespace stylist
 			AstNode parent = variableDeclarationStatement.Parent;
 			var block = parent as BlockStatement;
 			if (block != null)
-				AddIssues(variableDeclarationStatement.Variables.Where(v => !IsExceptionalName(v.Name)).Select(v => v.NameToken), 3,
-					20);
+				AddIssues(variableDeclarationStatement.Variables.Where(v => !IsAllowedVariableName(v.Name)).Select(v => v.NameToken), VariableNameLength);
 			else
 			{
 				int size = parent.Block().StatementsCount();
-				AddIssues(variableDeclarationStatement.Variables.Where(v => !IsExceptionalName(v.Name)).Select(v => v.NameToken),
-					size > 2 ? 3 : 1, 20);
+				AddIssues(variableDeclarationStatement.Variables.Where(v => !IsAllowedVariableName(v.Name)).Select(v => v.NameToken),
+					size > 2 ? VariableNameLength : VariableNameLength.WithMin(1));
 			}
 			base.VisitVariableDeclarationStatement(variableDeclarationStatement);
 		}

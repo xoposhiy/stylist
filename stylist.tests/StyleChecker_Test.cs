@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using NHunspell;
+using Newtonsoft.Json;
 using NUnit.Framework;
 
 namespace stylist.tests
@@ -19,6 +19,21 @@ namespace stylist.tests
 		public void TearDown()
 		{
 			Speller.DisposeInstance();
+		}
+
+		[Test]
+		public void Creation_with_options()
+		{
+			var options = JsonConvert.DeserializeObject<CheckerOption[]>(
+@"[
+	{Checker: 'MethodLength', Options: {MaxStatementsPerMethod: 10} },
+	{Checker: 'NamingCase' },
+	{Checker: 'NamingLength', Options: {TypeNameLength: {Min:1, Max:1}} }
+]");
+			BaseChecker[] checkers = new StyleChecker(Speller.Instance, options).Checkers;
+			Assert.AreEqual(10, checkers.OfType<MethodLengthChecker>().First().MaxStatementsPerMethod);
+			Assert.AreEqual(new IntRange(1, 1), checkers.OfType<NamingLengthChecker>().First().TypeNameLength);
+			CollectionAssert.IsEmpty(checkers.OfType<NamingCaseChecker>());
 		}
 
 		[Test]
@@ -53,6 +68,27 @@ namespace stylist.tests
 			foreach (string codeIssue in actualIssues)
 				Console.WriteLine(codeIssue);
 			CollectionAssert.AreEquivalent(testCase.CodeIssues, actualIssues);
+		}
+	}
+
+	[TestFixture]
+	public class IntRange_Test
+	{
+		[Test]
+		public void Test()
+		{
+			string serialized = JsonConvert.SerializeObject(new IntRange(10, 20));
+			var deserialized = JsonConvert.DeserializeObject<IntRange>(serialized);
+			Assert.AreEqual(10, deserialized.Min);
+			Assert.AreEqual(20, deserialized.Max);
+		}
+
+		[Test]
+		public void Test1()
+		{
+			var ch = new NamingLengthChecker();
+			JsonConvert.PopulateObject("{TypeNameLength: {Min: 1, Max: 1}}", ch);
+			Console.WriteLine(ch.TypeNameLength);
 		}
 	}
 }

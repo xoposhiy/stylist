@@ -103,3 +103,4 @@ Backup*/
 UpgradeLog*.XML
 
 /stylist.web/App_Data/code
+/NRefactory-master
