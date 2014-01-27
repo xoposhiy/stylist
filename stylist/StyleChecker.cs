@@ -4,6 +4,7 @@ using ICSharpCode.NRefactory.CSharp;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 using NHunspell;
+using stylist.Checkers;
 
 namespace stylist
 {

@@ -3,7 +3,7 @@ using System.Linq;
 using ICSharpCode.NRefactory.CSharp;
 using ICSharpCode.NRefactory.TypeSystem;
 
-namespace stylist
+namespace stylist.Checkers
 {
 	public class NamingChecker : BaseChecker
 	{

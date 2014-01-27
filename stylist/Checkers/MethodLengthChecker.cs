@@ -1,7 +1,7 @@
 using System.Linq;
 using ICSharpCode.NRefactory.CSharp;
 
-namespace stylist
+namespace stylist.Checkers
 {
 	public class MethodLengthChecker : BaseChecker
 	{

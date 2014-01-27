@@ -71,10 +71,10 @@
     <Compile Include="BaseNamingChecker.cs" />
     <Compile Include="CodeStyleIssue.cs" />
     <Compile Include="IntRange.cs" />
-    <Compile Include="MethodLengthChecker.cs" />
-    <Compile Include="NamingChecker.cs" />
-    <Compile Include="NamingLengthChecker.cs" />
-    <Compile Include="NamingCaseChecker.cs" />
+    <Compile Include="Checkers\MethodLengthChecker.cs" />
+    <Compile Include="Checkers\NamingChecker.cs" />
+    <Compile Include="Checkers\NamingLengthChecker.cs" />
+    <Compile Include="Checkers\NamingCaseChecker.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="SpellChecker.cs" />
     <Compile Include="Speller.cs" />
