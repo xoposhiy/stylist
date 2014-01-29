@@ -51,6 +51,7 @@ namespace stylist
 			yield return new NamingLengthChecker();
 			yield return new NamingChecker();
 			yield return new MethodLengthChecker();
+			yield return new FormattingChecker();
 		}
 
 		public StyleChecker(params BaseChecker[] checkers)

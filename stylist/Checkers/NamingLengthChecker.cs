@@ -1,3 +1,4 @@
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using ICSharpCode.NRefactory.CSharp;
@@ -22,7 +23,7 @@ namespace stylist.Checkers
 			FieldNameLength = new IntRange(3, 30);
 			MethodNameLength = new IntRange(3, 30);
 			VariableNameLength = new IntRange(3, 30);
-			AllowedShortVariableNames = new string[0];
+			AllowedShortVariableNames = new[]{"id", "x", "y", "z"};
 		}
 
 		private void AddIssues(IEnumerable<Identifier> ids, IntRange lengthConstraint)

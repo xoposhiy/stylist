@@ -3,7 +3,7 @@ using System.Linq;
 using System.Text;
 using ICSharpCode.NRefactory.CSharp;
 
-namespace stylist
+namespace stylist.Checkers
 {
 	public class SpellChecker : BaseNamingChecker
 	{

@@ -1,4 +1,4 @@
-namespace stylist.web.Models
+﻿namespace stylist.web.Models
 {
 	public class CodeSpan
 	{
@@ -9,6 +9,11 @@ namespace stylist.web.Models
 		}
 
 		public string Text;
+
+		public string TextWithVisibleWhitespaces
+		{
+			get { return Text.Replace(" ", "\u00B7").Replace("\t", "→   "); }
+		}
 		public CodeStyleIssue[] Issues;
 	}
 }
