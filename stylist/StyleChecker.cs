@@ -2,23 +2,15 @@
 using System.Linq;
 using ICSharpCode.NRefactory.CSharp;
 using Newtonsoft.Json;
-using Newtonsoft.Json.Linq;
-using NHunspell;
 using stylist.Checkers;
 
 namespace stylist
 {
-	public class CheckerOption
-	{
-		public string Checker { get; set; }
-		public JObject Options { get; set; }
-	}
-
 	public class StyleChecker
 	{
-		private readonly BaseChecker[] checkers;
+		private readonly IChecker[] checkers;
 
-		public BaseChecker[] Checkers { get { return checkers; } }
+		public IChecker[] Checkers { get { return checkers; } }
 
 		public StyleChecker(Speller speller, CheckerOption[] options)
 		{
@@ -29,7 +21,7 @@ namespace stylist
 				.ToArray();
 		}
 
-		private BaseChecker InitChecker(BaseChecker ch, CheckerOption[] options)
+		private IChecker InitChecker(IChecker ch, CheckerOption[] options)
 		{
 			CheckerOption option = options.FirstOrDefault(opt => opt.Checker + "Checker" == ch.GetType().Name);
 			if (option == null) return ch;
@@ -44,7 +36,7 @@ namespace stylist
 		{
 		}
 
-		private static IEnumerable<BaseChecker> CreateBaseCheckers(Speller speller)
+		private static IEnumerable<IChecker> CreateBaseCheckers(Speller speller)
 		{
 			yield return new SpellChecker(speller);
 			yield return new NamingCaseChecker();
@@ -52,9 +44,10 @@ namespace stylist
 			yield return new NamingChecker();
 			yield return new MethodLengthChecker();
 			yield return new FormattingChecker();
+			yield return new LineLengthChecker();
 		}
 
-		public StyleChecker(params BaseChecker[] checkers)
+		public StyleChecker(params IChecker[] checkers)
 		{
 			this.checkers = checkers;
 		}
@@ -62,13 +55,24 @@ namespace stylist
 		public CodeStyleIssue[] Check(string source)
 		{
 			var ast = new CSharpParser().Parse(source);
-			var codeIssues = new List<CodeStyleIssue>();
-			foreach (var checker in checkers)
+			return Check(ast, source);
+		}
+
+		public CodeStyleIssue[] Check(SyntaxTree ast, string source)
+		{
+			
+			var codeIssues = new CodeIssues();
+			foreach (var checker in checkers.OfType<BaseAstChecker>())
 			{
 				checker.Initialize(codeIssues);
 				ast.AcceptVisitor(checker);
 			}
-			return codeIssues.ToArray();
+			foreach (var checker in checkers.OfType<BaseTextChecker>())
+			{
+				checker.Initialize(codeIssues);
+				checker.Check(source);
+			}
+			return codeIssues.Issues.ToArray();
 		}
 	}
 }

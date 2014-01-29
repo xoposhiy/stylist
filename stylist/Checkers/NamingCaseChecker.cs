@@ -22,11 +22,10 @@ namespace stylist.Checkers
 		{
 			bool shouldStartWithUpper = ShouldStartWithUpper(node);
 			if (WrongNaming(shouldStartWithUpper, identifier))
-				codeIssues.Add(
-					new CodeStyleIssue(
-						"Naming.Case",
-						string.Format("Use '{0}' naming here", shouldStartWithUpper ? "CamelCase" : "camelCase"),
-						new TextSpan(identifier))
+				codeIssues.Report(
+					"Naming.Case", 
+					string.Format("Use '{0}' naming here", shouldStartWithUpper ? "CamelCase" : "camelCase"),
+						identifier
 					);
 		}
 	}

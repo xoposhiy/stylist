@@ -3,7 +3,7 @@ using ICSharpCode.NRefactory.CSharp;
 
 namespace stylist.Checkers
 {
-	public class MethodLengthChecker : BaseChecker
+	public class MethodLengthChecker : BaseAstChecker
 	{
 		public MethodLengthChecker()
 		{
@@ -48,8 +48,7 @@ namespace stylist.Checkers
 			nameToken = nameToken ?? declaration.NameToken;
 			int count = declaration.Descendants.Count(node => node is Statement);
 			if (count > MaxStatementsPerMethod)
-				codeIssues.Add(new CodeStyleIssue("Complexity", "Too long method. Try to divide it into smaller parts.",
-					new TextSpan(nameToken)));
+				codeIssues.Report("Complexity", "Too long method. Try to divide it into smaller parts.", nameToken);
 		}
 	}
 }

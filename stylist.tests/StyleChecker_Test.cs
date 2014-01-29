@@ -31,7 +31,7 @@ namespace stylist.tests
 	{Checker: 'NamingCase' },
 	{Checker: 'NamingLength', Options: {TypeNameLength: {Min:1, Max:1}} }
 ]");
-			BaseChecker[] checkers = new StyleChecker(Speller.Instance, options).Checkers;
+			BaseAstChecker[] checkers = new StyleChecker(Speller.Instance, options).Checkers.OfType<BaseAstChecker>().ToArray();
 			Assert.AreEqual(10, checkers.OfType<MethodLengthChecker>().First().MaxStatementsPerMethod);
 			Assert.AreEqual(new IntRange(1, 1), checkers.OfType<NamingLengthChecker>().First().TypeNameLength);
 			CollectionAssert.IsEmpty(checkers.OfType<NamingCaseChecker>());
@@ -61,7 +61,7 @@ namespace stylist.tests
 			RunTest("Naming", new NamingChecker());
 		}
 
-		private static void RunTest(string testName, params BaseChecker[] checkers)
+		private static void RunTest(string testName, params BaseAstChecker[] checkers)
 		{
 			TestCase testCase = TestCases.Get(testName);
 			var styleChecker = new StyleChecker(checkers);

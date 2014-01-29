@@ -5,7 +5,7 @@ using ICSharpCode.NRefactory.CSharp;
 
 namespace stylist.Checkers
 {
-	public class NamingLengthChecker : BaseChecker
+	public class NamingLengthChecker : BaseAstChecker
 	{
 		public IntRange TypeNameLength { get; set; }
 		public IntRange ParameterNameLength { get; set; }
@@ -28,18 +28,13 @@ namespace stylist.Checkers
 
 		private void AddIssues(IEnumerable<Identifier> ids, IntRange lengthConstraint)
 		{
-			codeIssues.AddRange(
-				ids
-					.Select(id =>
-						new CodeStyleIssue(
-							"Naming.Length",
-							id.Name.Length < lengthConstraint.Min
-								? "Too short name"
-								: (id.Name.Length > lengthConstraint.Max ? "Too long name" : null),
-							new TextSpan(id))
-					)
-					.Where(issue => issue.Description != null)
-				);
+			foreach (var id in ids)
+			{
+				if (id.Name.Length < lengthConstraint.Min)
+					codeIssues.Report("Naming", "Too short name", id);
+				else if (id.Name.Length > lengthConstraint.Max)
+					codeIssues.Report("Naming", "Too long name", id);
+			}
 		}
 
 		public override void VisitTypeDeclaration(TypeDeclaration typeDeclaration)

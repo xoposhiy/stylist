@@ -56,11 +56,7 @@ namespace stylist.Checkers
 		{
 			string misspelledWord = FindSpellingError(identifier.Name);
 			if (misspelledWord == null) return;
-			codeIssues.Add(
-				new CodeStyleIssue(
-					"Naming.Spelling",
-					string.Format("Spelling error in word '{0}'?", misspelledWord),
-					new TextSpan(identifier)));
+			codeIssues.Report("Naming.Spelling", string.Format("Spelling error in word '{0}'?", misspelledWord), identifier);
 		}
 	}
 }

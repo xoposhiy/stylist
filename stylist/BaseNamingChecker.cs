@@ -3,7 +3,7 @@ using ICSharpCode.NRefactory.CSharp;
 
 namespace stylist
 {
-	public abstract class BaseNamingChecker : BaseChecker
+	public abstract class BaseNamingChecker : BaseAstChecker
 	{
 		protected abstract void CheckName(Identifier identifier, AstNode node);
 

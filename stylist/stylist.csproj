@@ -69,13 +69,17 @@
     <Compile Include="AstNodeExtensions.cs" />
     <Compile Include="BaseChecker.cs" />
     <Compile Include="BaseNamingChecker.cs" />
+    <Compile Include="BaseTextChecker.cs" />
+    <Compile Include="CheckerOption.cs" />
     <Compile Include="Checkers\FormattingChecker.cs" />
     <Compile Include="CodeStyleIssue.cs" />
+    <Compile Include="IChecker.cs" />
     <Compile Include="IntRange.cs" />
     <Compile Include="Checkers\MethodLengthChecker.cs" />
     <Compile Include="Checkers\NamingChecker.cs" />
     <Compile Include="Checkers\NamingLengthChecker.cs" />
     <Compile Include="Checkers\NamingCaseChecker.cs" />
+    <Compile Include="Checkers\LineLengthChecker.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Checkers\SpellChecker.cs" />
     <Compile Include="Speller.cs" />

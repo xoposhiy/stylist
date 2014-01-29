@@ -1,10 +1,12 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Security.Cryptography;
 using System.Text;
 using System.Text.RegularExpressions;
 using System.Web.Mvc;
+using ICSharpCode.NRefactory.CSharp;
 using Newtonsoft.Json;
 using stylist.web.Models;
 
@@ -52,10 +54,19 @@ namespace stylist.web.Controllers
 			CheckerOption[] options = LoadCheckerOptions(SafeProfile(profile));
 			string code = System.IO.File.ReadAllText(filename).Split(new[] { delimiter }, 2, StringSplitOptions.None)[1];
 			CodeStyleIssue[] issues = CodeStyleIssues(code, options);
+			Highlight[] highlights = HighlightCode(code);
 			CodeLine[] lines =
 				Regex.Split(code, "\r\n|\r|\n")
-					.Select((line, index) => BuildCodeLine(line, index, issues)).ToArray();
-			return View(new CodeIssuesModel {Lines = lines, Code = code, Profile = profile});
+					.Select((line, index) => BuildCodeLine(line, index, issues, highlights)).ToArray();
+			return View(new CodeIssuesModel {Lines = lines, Code = code, Profile = profile, CodeIssues = issues});
+		}
+
+		private Highlight[] HighlightCode(string code)
+		{
+			var ast = new CSharpParser().Parse(code);
+			var highlightVisitor = new HighlightVisitor();
+			ast.AcceptVisitor(highlightVisitor);
+			return highlightVisitor.Highlights.ToArray();
 		}
 
 		private string GetFilename(string id)
@@ -74,9 +85,46 @@ namespace stylist.web.Controllers
 			return string.Join("", md5.ComputeHash(Encoding.Unicode.GetBytes(code)).Select(b => b.ToString("x2")));
 		}
 
-		private CodeLine BuildCodeLine(string line, int lineIndex, CodeStyleIssue[] issues)
+		private CodeLine BuildCodeLine(string line, int lineIndex, CodeStyleIssue[] issues, Highlight[] highlights)
 		{
-			return new CodeLine(line, issues.Where(issue => issue.Span.Line == lineIndex));
+			return new CodeLine(
+				line, 
+				issues.Where(issue => issue.Span.Line == lineIndex), 
+				highlights.Where(h => h.Span.Line == lineIndex));
 		}
+	}
+
+	public class HighlightVisitor : DepthFirstAstVisitor
+	{
+		protected override void VisitChildren(AstNode node)
+		{
+			if (IsKeyword(node))
+				Highlights.Add(new Highlight(new TextSpan(node), CodeSpanType.Keyword));
+			else if (node is Comment)
+				Highlights.Add(new Highlight(new TextSpan(node), CodeSpanType.Comment));
+			else if (node is PrimitiveExpression && ((PrimitiveExpression)node).Value is string)
+				Highlights.Add(new Highlight(new TextSpan(node), CodeSpanType.String));
+			base.VisitChildren(node);
+		}
+
+		private static bool IsKeyword(AstNode node)
+		{
+			var text = node.GetText();
+			return node is CSharpTokenNode && (CSharpOutputVisitor.IsKeyword(text, node) || text == "yield");
+		}
+
+		public List<Highlight> Highlights = new List<Highlight>();
+	}
+
+	public class Highlight
+	{
+		public Highlight(TextSpan span, CodeSpanType type)
+		{
+			Span = span;
+			Type = type;
+		}
+
+		public TextSpan Span;
+		public CodeSpanType Type;
 	}
 }

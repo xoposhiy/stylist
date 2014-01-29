@@ -1,27 +1,20 @@
-﻿@model stylist.web.Models.CodeIssuesModel
+﻿@using stylist.web.Models
+@model CodeIssuesModel
 <div class="row">
 	<div class="col-md-12">
 		<h1>Code Style Issues</h1>
-		<div class="code-with-issues">
-			@foreach (var line in Model.Lines)
+		<ul>
+			@foreach (var codeIssue in Model.CodeIssues)
 			{
-				<div class="code-line">
-					@foreach (var span in line.Spans)
-					{
-						if (!span.Issues.Any())
-						{
-							<div class="code-span">@span.Text</div>
-						}
-						else
-						{
-							var issue = span.Issues.First();
-							<div class="code-span span-with-issue" title="@issue.IssueId Issue" data-content="@issue.Description">@span.Text</div>
-						}
-					}
-					<div class="clearfix"></div>
-				</div>
+				<li><code>@codeIssue</code></li>
 			}
-		</div>
+		</ul>
+		<pre>
+		@foreach (var line in Model.Lines)
+		{
+			@Html.CodeLine(line, "src")
+		}
+		</pre>
 	</div>
 </div>
 
@@ -30,6 +23,6 @@
 @section scripts
 {
 	<script>
-		$(".span-with-issue").popover({trigger:"hover"});
+		$(".src-error").popover({trigger:"hover", placement:"top"});
 	</script>
 }

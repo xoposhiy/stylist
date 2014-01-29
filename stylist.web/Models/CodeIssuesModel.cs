@@ -1,3 +1,6 @@
+using System.Collections;
+using System.Collections.Generic;
+
 namespace stylist.web.Models
 {
 
@@ -10,5 +13,6 @@ namespace stylist.web.Models
 	public class CodeIssuesModel : CodeModel
 	{
 		public CodeLine[] Lines;
+		public CodeStyleIssue[] CodeIssues;
 	}
 }

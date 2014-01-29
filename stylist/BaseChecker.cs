@@ -3,24 +3,33 @@ using ICSharpCode.NRefactory.CSharp;
 
 namespace stylist
 {
-	public class BaseChecker : DepthFirstAstVisitor
+	public class CodeIssues
 	{
-		protected List<CodeStyleIssue> codeIssues;
+		public readonly List<CodeStyleIssue> Issues = new List<CodeStyleIssue>();
 
-		public void Initialize(List<CodeStyleIssue> result)
+		public void Report(string issueId, string description, AstNode node)
+		{
+			Report(issueId, description, new TextSpan(node));
+		}
+
+		public void Report(string issueId, string description, TextSpan span)
+		{
+			Issues.Add(new CodeStyleIssue(issueId, description, span));
+		}
+
+		public void Check(bool condition, string issueId, string description, AstNode node)
+		{
+			if (!condition) Report(issueId, description, node);
+		}
+	}
+
+	public class BaseAstChecker : DepthFirstAstVisitor, IChecker
+	{
+		protected CodeIssues codeIssues;
+
+		public void Initialize(CodeIssues result)
 		{
 			codeIssues = result;
-		}
-
-		protected void ReportIssue(string issueId, string description, AstNode node)
-		{
-			codeIssues.Add(new CodeStyleIssue(issueId, description, new TextSpan(node)));
-		}
-		
-		protected void CheckIssue(bool condition, string issueId, string description, AstNode node)
-		{
-			if (!condition)
-				codeIssues.Add(new CodeStyleIssue(issueId, description, new TextSpan(node)));
 		}
 	}
 }

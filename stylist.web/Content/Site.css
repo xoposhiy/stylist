@@ -33,30 +33,42 @@ input[type="checkbox"].input-validation-error {
     display: none;
 }
 
-#code {
-	width:100%;
-}
-
-#code, .code-line {
-    font-family: Consolas, monospace;
-    font-size: 12pt;
-}
-
-.code-span {
-	white-space: pre;
-	float:left;
-}
-
-.span-with-issue {
+.src-error {
 	color: red;
 	font-weight: bold;
 	background-color: #DDF;
 }
 
-.code-with-issues {
-	background-color: #F0F0FF
+.src-keyword {
+	font-weight: bold;
+}
+
+.src-comment {
+	color: grey;
+	font-style: italic;
+}
+
+.src-string {
+	color: darkred;
+}
+
+#code {
+	width:100%;
+	font-family: Monaco, Menlo, Consolas, "Courier New", monospace;
 }
 
 h1 {
 	margin-top: 50px;
+}
+
+pre {
+    counter-reset: line-numbering;
+}
+pre .src-line::before {
+    content: counter(line-numbering);
+    counter-increment: line-numbering;
+    padding-right: 1em; /* space after numbers */
+    width: 1.5em;
+    text-align: right;
+    opacity: 0.5;
 }

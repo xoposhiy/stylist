@@ -2,7 +2,7 @@
 
 namespace stylist.Checkers
 {
-	public class FormattingChecker : BaseChecker
+	public class FormattingChecker : BaseAstChecker
 	{
 		protected override void VisitChildren(AstNode node)
 		{
@@ -13,7 +13,7 @@ namespace stylist.Checkers
 		private void CheckFormatting(AstNode node)
 		{
 			if (node is BlockStatement && OnSameLine(node))
-				CheckIssue((node as BlockStatement).Statements.Count <= 1, "Formatting", "Place each statement of the block on seprate line", node);
+				codeIssues.Check((node as BlockStatement).Statements.Count <= 1, "Formatting", "Place each statement of the block on seprate line", node);
 			if (!OnSameLine(node))
 				CheckIdentation(node, parentIdentation: GetIdentation(node.Parent), identNode: !(node is BlockStatement));
 		}
@@ -36,12 +36,11 @@ namespace stylist.Checkers
 			{
 				var nodeColumn = node.StartLocation.Column;
 				if (identNode && nodeColumn <= parentIdentation)
-					codeIssues.Add(new CodeStyleIssue("Formatting", "Identation error", new TextSpan(node)));
+					codeIssues.Report("Formatting", "Identation error", node);
 				if (!identNode && nodeColumn != parentIdentation)
-					codeIssues.Add(new CodeStyleIssue("Formatting", "Identation error", new TextSpan(node)));
+					codeIssues.Report("Formatting", "Identation error", node);
 			}
 		}
-
 
 		private bool IsElseIfClause(AstNode node, out int elseColumn)
 		{

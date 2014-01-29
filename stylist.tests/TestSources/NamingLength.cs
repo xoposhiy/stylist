@@ -27,7 +27,7 @@ class MyClass
 			Console.WriteLine(s);
 	}
 }
-//Naming.Length: Too short name (Line: 5)
-//Naming.Length: Too short name (Line: 8)
-//Naming.Length: Too short name (Line: 8)
-//Naming.Length: Too short name (Line: 10)
+//Naming: Too short name (Line: 5)
+//Naming: Too short name (Line: 8)
+//Naming: Too short name (Line: 8)
+//Naming: Too short name (Line: 10)
