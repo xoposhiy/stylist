@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
 using ICSharpCode.NRefactory.CSharp;
+using ICSharpCode.NRefactory.TypeSystem;
 using Newtonsoft.Json;
 using stylist.Checkers;
 
@@ -55,7 +56,13 @@ namespace stylist
 		public CodeStyleIssue[] Check(string source)
 		{
 			var ast = new CSharpParser().Parse(source);
-			return Check(ast, source);
+			return Check(ast, source).Concat(ast.Errors.SelectMany(ErrorToIssue)).ToArray();
+		}
+
+		private IEnumerable<CodeStyleIssue> ErrorToIssue(Error err)
+		{
+			return TextSpan.Split(err.Region.Begin, err.Region.End)
+				.Select(span => new CodeStyleIssue(err.ErrorType.ToString(), err.Message, span));
 		}
 
 		public CodeStyleIssue[] Check(SyntaxTree ast, string source)

@@ -30,6 +30,7 @@ namespace stylist.Checkers
 		{
 			foreach (var id in ids)
 			{
+				if (string.IsNullOrWhiteSpace(id.Name)) continue;
 				if (id.Name.Length < lengthConstraint.Min)
 					codeIssues.Report("Naming", "Too short name", id);
 				else if (id.Name.Length > lengthConstraint.Max)

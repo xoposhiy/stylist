@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using System.Linq;
 using ICSharpCode.NRefactory.CSharp;
 
 namespace stylist
@@ -42,12 +43,8 @@ namespace stylist
 
 		private void AddHighlignting(AstNode node, CodeSpanType type)
 		{
-			for (int line = node.StartLocation.Line; line <= node.EndLocation.Line; line++)
-			{
-				var startCol = line == node.StartLocation.Line ? node.StartLocation.Column : 1;
-				var endCol = line == node.EndLocation.Line ? node.EndLocation.Column : int.MaxValue;
-				Highlights.Add(new Highlight(new TextSpan(line-1, startCol-1, endCol-1), type));
-			}
+			Highlights.AddRange(
+				TextSpan.Split(node.StartLocation, node.EndLocation).Select(span => new Highlight(span, type)));
 		}
 
 		private static bool IsKeyword(AstNode node)
