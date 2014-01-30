@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Security.Cryptography;
@@ -94,37 +93,4 @@ namespace stylist.web.Controllers
 		}
 	}
 
-	public class HighlightVisitor : DepthFirstAstVisitor
-	{
-		protected override void VisitChildren(AstNode node)
-		{
-			if (IsKeyword(node))
-				Highlights.Add(new Highlight(new TextSpan(node), CodeSpanType.Keyword));
-			else if (node is Comment)
-				Highlights.Add(new Highlight(new TextSpan(node), CodeSpanType.Comment));
-			else if (node is PrimitiveExpression && ((PrimitiveExpression)node).Value is string)
-				Highlights.Add(new Highlight(new TextSpan(node), CodeSpanType.String));
-			base.VisitChildren(node);
-		}
-
-		private static bool IsKeyword(AstNode node)
-		{
-			var text = node.GetText();
-			return node is CSharpTokenNode && (CSharpOutputVisitor.IsKeyword(text, node) || text == "yield");
-		}
-
-		public List<Highlight> Highlights = new List<Highlight>();
-	}
-
-	public class Highlight
-	{
-		public Highlight(TextSpan span, CodeSpanType type)
-		{
-			Span = span;
-			Type = type;
-		}
-
-		public TextSpan Span;
-		public CodeSpanType Type;
-	}
 }

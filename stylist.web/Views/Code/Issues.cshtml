@@ -6,13 +6,14 @@
 		<ul>
 			@foreach (var codeIssue in Model.CodeIssues)
 			{
-				<li><code>@codeIssue</code></li>
+				<li><a href="#@codeIssue.Span.Line">@codeIssue</a></li>
 			}
 		</ul>
 		<pre>
-		@foreach (var line in Model.Lines)
+		@for (int index = 0; index < Model.Lines.Length; index++)
 		{
-			@Html.CodeLine(line, "src")
+			var line = Model.Lines[index];
+			@Html.CodeLine(line, index+1, "src")
 		}
 		</pre>
 	</div>

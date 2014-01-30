@@ -18,13 +18,4 @@
 		}
 		public CodeStyleIssue[] Issues;
 	}
-
-	public enum CodeSpanType
-	{
-		Code,
-		Comment,
-		String,
-		Keyword,
-		Error
-	}
 }

@@ -6,10 +6,10 @@ namespace stylist.web.Models
 {
 	public static class CodeLineHtmlHelper
 	{
-		public static HtmlString CodeLine(this HtmlHelper html, CodeLine line, string baseClass)
+		public static HtmlString CodeLine(this HtmlHelper html, CodeLine line, int lineNo, string baseClass)
 		{
 			return new HtmlString(
-				"<span class='src-line'>" 
+				"<span class='src-line'><a name='" + lineNo + "'></a>" 
 				+ string.Join("", line.Spans.Select(span => FormatSpan(span, baseClass)))
 				+ "</span>\n");
 		}

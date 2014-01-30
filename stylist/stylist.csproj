@@ -72,7 +72,9 @@
     <Compile Include="BaseTextChecker.cs" />
     <Compile Include="CheckerOption.cs" />
     <Compile Include="Checkers\FormattingChecker.cs" />
+    <Compile Include="CodeSpanType.cs" />
     <Compile Include="CodeStyleIssue.cs" />
+    <Compile Include="HighlightVisitor.cs" />
     <Compile Include="IChecker.cs" />
     <Compile Include="IntRange.cs" />
     <Compile Include="Checkers\MethodLengthChecker.cs" />
