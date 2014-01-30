@@ -4,7 +4,7 @@
 	<div class="col-md-12">
 		<h1>Code Style Issues</h1>
 		<ul>
-			@foreach (var codeIssue in Model.CodeIssues)
+			@foreach (var codeIssue in Model.CodeIssues.OrderBy(i => i.Span.Line))
 			{
 				<li><a href="#@codeIssue.Span.Line">@codeIssue</a></li>
 			}
