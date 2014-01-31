@@ -10,6 +10,10 @@ namespace stylist
 	{
 		public static IEnumerable<CodeStyleIssue> AnalayzeText(this IChecker checker, string text)
 		{
+			text = text.Replace("    ", "\t");
+			text = text.Replace(" \t", "\t");
+			text = text.Replace("  \t", "\t");
+			text = string.Join("\r\n", text.AsLines());
 			var codeIssues = new CodeIssues();
 			checker.Initialize(codeIssues);
 			var astChecker = (checker as BaseAstChecker);
@@ -18,6 +22,14 @@ namespace stylist
 			var textChecker = (checker as BaseTextChecker);
 			if (textChecker != null)
 				textChecker.Check(text);
+			var lines = text.AsLines();
+			foreach (var issue in codeIssues.Issues)
+			{
+				var lineIndex = issue.Span.Line;
+				issue.Fragment = lines[lineIndex];
+				if (lineIndex > 0) issue.Fragment = lines[lineIndex - 1] + Environment.NewLine + issue.Fragment;
+				if (lineIndex < lines.Length-1) issue.Fragment += Environment.NewLine + lines[lineIndex + 1];
+			}
 			return codeIssues.Issues;
 		}
 
@@ -49,10 +61,13 @@ namespace stylist
 					{
 						Console.WriteLine("{0} {1}", reportItem.Item1, reportItem.Item2.Length);
 						if (showErrors)
+						{
 							foreach (var issue in reportItem.Item2)
 							{
 								Console.WriteLine("\t{0}", issue);
+								Console.WriteLine(issue.Fragment);
 							}
+						}
 					}
 				}
 			}

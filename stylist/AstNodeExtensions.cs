@@ -1,10 +1,19 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Text.RegularExpressions;
 using ICSharpCode.NRefactory.CSharp;
 
 namespace stylist
 {
+	public static class StringExtensions
+	{
+		public static string[] AsLines(this string text)
+		{
+			return Regex.Split(text, "\r\n|\r|\n");
+		}
+	}
+
 	public static class AstNodeExtensions
 	{
 		public static V As<T, V>(this AstNode node, Func<T, V> convert) 

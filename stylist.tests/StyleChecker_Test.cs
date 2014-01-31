@@ -93,11 +93,17 @@ namespace stylist.tests
 		[Explicit]
 		public void AnalyzeFormatting()
 		{
-			new FormattingChecker().ReportErrorsToConsole(@"d:\work\stylist\NREf", showFiles: false, showErrors: false);
+			Console.WriteLine(
+				new FormattingChecker().AnalayzeFile(
+					@"d:\work\stylist\packages\navigationroutes.mvc4.1.0.30130\Content\NavigationRoutes\NamedRoute.cs")
+					.FirstOrDefault());
+//			new FormattingChecker().ReportErrorsToConsole(@"d:\work\stylist\NREf", showFiles: false, showErrors: false);
 //			new FormattingChecker().ReportErrorsToConsole(@"d:\work\stylist\NREf", showFiles: true, showErrors: true);
+//			new FormattingChecker().ReportErrorsToConsole(@"d:\work\stylist", showFiles: true, showErrors: true);
 			//old scheme: 313 2936
 			//new scheme: 352 3149
 			//+ifelse and for: 113 657
+			// ignore spaces mixing with tabs: 68 494
 		}
 
 	}

@@ -53,9 +53,10 @@ namespace stylist.Checkers
 			if (statement == null || statement is BlockStatement) return;
 			if (statement.Parent is ForStatement) return;
 			if (IsElseIfStatement(statement, statement.Parent)) return;
+			if (IsUsing(statement, statement.Parent)) return;
 			var isFirstInLine = firstInLine.Contains(statement);
 			var prevSiblingStatement = statement.PrevSiblings().FirstOrDefault(s => s is Statement);
-			if (prevSiblingStatement != null)
+			if (statement.Parent is BlockStatement && prevSiblingStatement != null)
 			{
 				codeIssues.Check(
 					isFirstInLine && SameIndentation(statement, prevSiblingStatement),
@@ -80,6 +81,12 @@ namespace stylist.Checkers
 					statement
 					);
 			}
+		}
+
+		private bool IsUsing(Statement statement, AstNode usingStatement)
+		{
+			var theUsing = usingStatement as UsingStatement;
+			return theUsing != null && theUsing.ResourceAcquisition == statement && theUsing.UsingToken.StartLocation.Line == statement.StartLocation.Line;
 		}
 
 		private bool IsElseIfStatement(Statement ifStatement, AstNode elseStatement)

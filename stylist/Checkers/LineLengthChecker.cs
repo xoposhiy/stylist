@@ -1,5 +1,3 @@
-using System.Text.RegularExpressions;
-
 namespace stylist.Checkers
 {
 	public class LineLengthChecker : BaseTextChecker
@@ -11,7 +9,7 @@ namespace stylist.Checkers
 
 		public override void Check(string source)
 		{
-			var lines = Regex.Split(source, "\r\n|\r|\n");
+			var lines = source.AsLines();
 			for (int i = 0; i < lines.Length; i++)
 			{
 				var line = lines[i];

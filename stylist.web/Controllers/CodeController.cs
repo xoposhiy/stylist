@@ -54,8 +54,7 @@ namespace stylist.web.Controllers
 			string code = System.IO.File.ReadAllText(filename).Split(new[] { delimiter }, 2, StringSplitOptions.None)[1];
 			CodeStyleIssue[] issues = CodeStyleIssues(code, options);
 			Highlight[] highlights = HighlightCode(code);
-			CodeLine[] lines =
-				Regex.Split(code, "\r\n|\r|\n")
+			CodeLine[] lines = code.AsLines()
 					.Select((line, index) => BuildCodeLine(line, index, issues, highlights)).ToArray();
 			return View(new CodeIssuesModel {Lines = lines, Code = code, Profile = profile, CodeIssues = issues});
 		}

@@ -12,6 +12,7 @@
 		public string Description;
 		public string IssueId;
 		public TextSpan Span;
+		public string Fragment;
 
 		public override string ToString()
 		{
