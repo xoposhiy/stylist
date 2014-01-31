@@ -54,11 +54,29 @@ namespace stylist.tests
 		{
 			RunTest("MethodLength", new MethodLengthChecker());
 		}
-		
+
 		[Test]
 		public void Naming()
 		{
 			RunTest("Naming", new NamingChecker());
+		}
+
+		[Test]
+		public void Formatting()
+		{
+			RunTest("Formatting", new FormattingChecker());
+		}
+
+		[Test]
+		public void FormattingLambda()
+		{
+			RunTest("FormattingLambda", new FormattingChecker());
+		}
+
+		[Test]
+		public void FormattingKR()
+		{
+			RunTest("FormattingKR", new FormattingChecker());
 		}
 
 		private static void RunTest(string testName, params BaseAstChecker[] checkers)
@@ -70,26 +88,17 @@ namespace stylist.tests
 				Console.WriteLine(codeIssue);
 			CollectionAssert.AreEquivalent(testCase.CodeIssues, actualIssues);
 		}
-	}
-
-	[TestFixture]
-	public class IntRange_Test
-	{
-		[Test]
-		public void Test()
-		{
-			string serialized = JsonConvert.SerializeObject(new IntRange(10, 20));
-			var deserialized = JsonConvert.DeserializeObject<IntRange>(serialized);
-			Assert.AreEqual(10, deserialized.Min);
-			Assert.AreEqual(20, deserialized.Max);
-		}
 
 		[Test]
-		public void Test1()
+		[Explicit]
+		public void AnalyzeFormatting()
 		{
-			var ch = new NamingLengthChecker();
-			JsonConvert.PopulateObject("{TypeNameLength: {Min: 1, Max: 1}}", ch);
-			Console.WriteLine(ch.TypeNameLength);
+			new FormattingChecker().ReportErrorsToConsole(@"d:\work\stylist\NREf", showFiles: false, showErrors: false);
+//			new FormattingChecker().ReportErrorsToConsole(@"d:\work\stylist\NREf", showFiles: true, showErrors: true);
+			//old scheme: 313 2936
+			//new scheme: 352 3149
+			//+ifelse and for: 113 657
 		}
+
 	}
 }

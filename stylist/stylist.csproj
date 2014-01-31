@@ -71,6 +71,7 @@
     <Compile Include="BaseNamingChecker.cs" />
     <Compile Include="BaseTextChecker.cs" />
     <Compile Include="CheckerOption.cs" />
+    <Compile Include="CheckerRunner.cs" />
     <Compile Include="Checkers\FormattingChecker.cs" />
     <Compile Include="CodeSpanType.cs" />
     <Compile Include="CodeStyleIssue.cs" />

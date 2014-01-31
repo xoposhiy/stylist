@@ -66,6 +66,16 @@
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
     <Compile Include="BuildSpellerDictionary.cs" />
+    <Compile Include="IntRange_Test.cs" />
+    <Content Include="TestSources\Formatting.cs">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="TestSources\FormattingKR.cs">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="TestSources\FormattingLambda.cs">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
     <Compile Include="TextSpan_Test.cs" />
     <Content Include="TestSources\NamingCase.cs">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>

@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using System.Linq;
 using ICSharpCode.NRefactory.CSharp;
 
@@ -12,6 +13,24 @@ namespace stylist
 		{
 			var t = node as T;
 			return t == null ? null : convert(t);
+		}
+
+		public static IEnumerable<AstNode> PrevSiblings(this AstNode node)
+		{
+			while (node.PrevSibling != null)
+				yield return node = node.PrevSibling;
+		}
+
+		public static void ForEach<T>(this IEnumerable<T> items, Action<T> action)
+		{
+			foreach (var item in items)
+				action(item);
+		}
+
+		public static IEnumerable<AstNode> NextSiblings(this AstNode node)
+		{
+			while (node.NextSibling != null)
+				yield return node = node.NextSibling;
 		}
 
 		public static Statement Block(this AstNode node)
