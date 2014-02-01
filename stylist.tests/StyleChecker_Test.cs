@@ -64,7 +64,7 @@ namespace stylist.tests
 		[Test]
 		public void Formatting()
 		{
-			RunTest("Formatting", new FormattingChecker());
+		     RunTest("Formatting", new FormattingChecker());
 		}
 
 		[Test]
@@ -77,6 +77,12 @@ namespace stylist.tests
 		public void FormattingKR()
 		{
 			RunTest("FormattingKR", new FormattingChecker());
+		}
+	
+		[Test]
+		public void ArgumentsNumber()
+		{
+			RunTest("ArgumentsNumber", new ArgumentsNumberChecker());
 		}
 
 		private static void RunTest(string testName, params BaseAstChecker[] checkers)
@@ -91,15 +97,15 @@ namespace stylist.tests
 
 		[Test]
 		[Explicit]
-		public void AnalyzeFormatting()
+		public void RunChecker()
 		{
-			Console.WriteLine(
-				new FormattingChecker().AnalayzeFile(
-					@"d:\work\stylist\packages\navigationroutes.mvc4.1.0.30130\Content\NavigationRoutes\NamedRoute.cs")
-					.FirstOrDefault());
+//			Console.WriteLine(
+//				new FormattingChecker().AnalayzeFile(
+//					@"d:\work\stylist\packages\navigationroutes.mvc4.1.0.30130\Content\NavigationRoutes\NamedRoute.cs")
+//					.FirstOrDefault());
 //			new FormattingChecker().ReportErrorsToConsole(@"d:\work\stylist\NREf", showFiles: false, showErrors: false);
 //			new FormattingChecker().ReportErrorsToConsole(@"d:\work\stylist\NREf", showFiles: true, showErrors: true);
-//			new FormattingChecker().ReportErrorsToConsole(@"d:\work\stylist", showFiles: true, showErrors: true);
+			new ArgumentsNumberChecker().ReportErrorsToConsole(@"d:\work\stylist", showFiles: true, showErrors: true);
 			//old scheme: 313 2936
 			//new scheme: 352 3149
 			//+ifelse and for: 113 657
