@@ -31,7 +31,14 @@ namespace stylist.Checkers
 
 		private bool Incorrect(string w)
 		{
-			return !speller.Hunspell.Spell(w) && !AllowedWords.Contains(w);
+			return !Spell(w) && !AllowedWords.Contains(w);
+		}
+
+		private bool Spell(string w)
+		{
+			return 
+				new[] {w, w.ToLower(), w.ToUpper(), w.Substring(0, 1).ToUpper() + w.Substring(1).ToLower()}
+				.Any(speller.Hunspell.Spell);
 		}
 
 		private IEnumerable<string> SplitCamelCase(string camelCaseWords)

@@ -72,6 +72,7 @@
     <Compile Include="BaseTextChecker.cs" />
     <Compile Include="CheckerOption.cs" />
     <Compile Include="CheckerRunner.cs" />
+    <Compile Include="Checkers\ReturnBoolChecker.cs" />
     <Compile Include="Checkers\FormattingChecker.cs" />
     <Compile Include="Checkers\ArgumentsNumberChecker.cs" />
     <Compile Include="CodeSpanType.cs" />

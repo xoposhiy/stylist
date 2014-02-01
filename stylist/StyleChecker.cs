@@ -46,6 +46,8 @@ namespace stylist
 			yield return new MethodLengthChecker();
 			yield return new FormattingChecker();
 			yield return new LineLengthChecker();
+			yield return new ArgumentsNumberChecker();
+			yield return new ReturnBoolChecker();
 		}
 
 		public StyleChecker(params IChecker[] checkers)

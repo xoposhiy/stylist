@@ -6,18 +6,25 @@ using ICSharpCode.NRefactory.CSharp;
 
 namespace stylist
 {
-	public static class StringExtensions
+	public static class UsefulExtensions
 	{
 		public static string[] AsLines(this string text)
 		{
 			return Regex.Split(text, "\r\n|\r|\n");
 		}
+
+		public static TOutput Call<TInput, TOutput>(this TInput input, Func<TInput, TOutput> f)
+			where TInput : class
+			where TOutput : class
+		{
+			return input == null ? null : f(input);
+		}
 	}
 
 	public static class AstNodeExtensions
 	{
-		public static V As<T, V>(this AstNode node, Func<T, V> convert) 
-			where T : AstNode 
+		public static V As<T, V>(this AstNode node, Func<T, V> convert)
+			where T : AstNode
 			where V : class
 		{
 			var t = node as T;

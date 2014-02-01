@@ -79,6 +79,9 @@
     <Content Include="TestSources\ArgumentsNumber.cs">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
+    <Content Include="TestSources\ReturnBool.cs">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
     <Compile Include="TextSpan_Test.cs" />
     <Content Include="TestSources\NamingCase.cs">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>

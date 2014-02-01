@@ -84,6 +84,12 @@ namespace stylist.tests
 		{
 			RunTest("ArgumentsNumber", new ArgumentsNumberChecker());
 		}
+	
+		[Test]
+		public void ReturnBool()
+		{
+			RunTest("ReturnBool", new ReturnBoolChecker());
+		}
 
 		private static void RunTest(string testName, params BaseAstChecker[] checkers)
 		{
