@@ -4,29 +4,34 @@ namespace stylist.Checkers
 {
 	public class NamingCaseChecker : BaseNamingChecker
 	{
-		private static bool WrongNaming(bool shouldStartWithUpper, Identifier id)
-		{
-			return !string.IsNullOrEmpty(id.Name) && char.IsUpper(id.Name[0]) != shouldStartWithUpper;
-		}
-
-		private bool ShouldStartWithUpper(AstNode node)
+		private bool MustStartWithUpper(AstNode node)
 		{
 			return node is TypeParameterDeclaration
-					|| node is TypeDeclaration
-					|| node is EnumMemberDeclaration
-					|| node is MethodDeclaration
-					|| node is FieldDeclaration && !(node as FieldDeclaration).HasModifier(Modifiers.Private);
+				|| node is TypeDeclaration
+				|| node is EnumMemberDeclaration
+				|| node is EntityDeclaration && (node as EntityDeclaration).HasModifier(Modifiers.Public);
 		}
 
+		private bool MustStartWithLower(AstNode node)
+		{
+			return node is VariableDeclarationStatement
+				|| node is ParameterDeclaration
+				|| node is FieldDeclaration && (node as FieldDeclaration).HasModifier(Modifiers.Private);
+		}
+		
 		protected override void CheckName(Identifier identifier, AstNode node)
 		{
-			bool shouldStartWithUpper = ShouldStartWithUpper(node);
-			if (WrongNaming(shouldStartWithUpper, identifier))
-				codeIssues.Report(
-					"Naming.Case", 
-					string.Format("Use '{0}' naming here", shouldStartWithUpper ? "CamelCase" : "camelCase"),
-						identifier
-					);
+			var name = identifier.Name;
+			if (string.IsNullOrEmpty(name)) return;
+			bool mustStartWithUpper = MustStartWithUpper(node);
+			bool mustStartWithLower = MustStartWithLower(node);
+			var isUpper = char.IsUpper(name[0]);
+			var isLower = char.IsLower(name[0]);
+
+			if (mustStartWithLower && !isLower)
+				codeIssues.Report(this, "Use camelCaseNaming here", identifier);
+			if (mustStartWithUpper && !isUpper)
+				codeIssues.Report(this, "Use PascalCaseNaming here", identifier);
 		}
 	}
 }

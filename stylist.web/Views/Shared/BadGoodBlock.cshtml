@@ -1,0 +1,13 @@
+﻿@model Tuple<string, string>
+<div>
+	<div class="clearfix"></div>
+	<div class="goodbad-bad">
+		<h3>Плохо</h3>
+		@Html.CodeBlock(Model.Item1)
+	</div>
+	<div class="goodbad-good">
+		<h3>Хорошо</h3>
+		@Html.CodeBlock(Model.Item2)
+	</div>
+	<div class="clearfix"></div>
+</div>

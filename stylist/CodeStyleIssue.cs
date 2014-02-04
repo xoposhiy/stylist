@@ -2,21 +2,21 @@
 {
 	public class CodeStyleIssue
 	{
-		public CodeStyleIssue(string issueId, string description, TextSpan span)
+		public CodeStyleIssue(string checkerName, string description, TextSpan span)
 		{
-			IssueId = issueId;
+			CheckerName = checkerName;
 			Description = description;
 			Span = span;
 		}
 
 		public string Description;
-		public string IssueId;
+		public string CheckerName;
 		public TextSpan Span;
 		public string Fragment;
 
 		public override string ToString()
 		{
-			return string.Format("{0}: {2} (Line: {1})", IssueId, Span.Line+1, Description);
+			return string.Format("{2} (Line: {1})", CheckerName, Span.Line+1, Description);
 		}
 	}
 }

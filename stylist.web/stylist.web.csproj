@@ -151,7 +151,7 @@
     </Compile>
     <Compile Include="Models\CodeIssuesModel.cs" />
     <Compile Include="Models\CodeLine.cs" />
-    <Compile Include="Models\CodeLineHtmlBuilder.cs" />
+    <Compile Include="Helpers\CodeLineHtmlHelper.cs" />
     <Compile Include="Models\CodeSpan.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
@@ -186,6 +186,8 @@
     <Content Include="Scripts\jquery-1.10.2.min.map" />
     <Content Include="Views\Code\Issues.cshtml" />
     <Content Include="Views\Shared\CheckYourCodeForm.cshtml" />
+    <Content Include="Views\Code\Explanations.cshtml" />
+    <Content Include="Views\Shared\BadGoodBlock.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\stylist\stylist.csproj">

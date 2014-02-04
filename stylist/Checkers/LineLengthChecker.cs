@@ -14,7 +14,7 @@ namespace stylist.Checkers
 			{
 				var line = lines[i];
 				if (line.Length > MaxLineLength)
-					codeIssues.Report("LineLength", "Long lines are hard to read", new TextSpan(i, 0, line.Length-1));
+					codeIssues.Report(this, "Long lines are hard to read", new TextSpan(i, 0, line.Length-1));
 			}
 		}
 

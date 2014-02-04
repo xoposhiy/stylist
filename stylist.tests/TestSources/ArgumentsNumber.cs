@@ -50,11 +50,11 @@ namespace A
 		}
 	}
 }
-//ArgumentsNumber: Too many arguments (Line: 12)
-//ArgumentsNumber: Too many arguments (Line: 21)
-//ArgumentsNumber: Too many arguments (Line: 23)
-//ArgumentsNumber: Too many arguments (Line: 27)
-//ArgumentsNumber: Too many arguments (Line: 29)
-//ArgumentsNumber: Too many arguments (Line: 40)
-//ArgumentsNumber: Too many arguments (Line: 48)
-//ArgumentsNumber: Too many arguments (Line: 49)
+//Too many arguments (Line: 12)
+//Too many arguments (Line: 21)
+//Too many arguments (Line: 23)
+//Too many arguments (Line: 27)
+//Too many arguments (Line: 29)
+//Too many arguments (Line: 40)
+//Too many arguments (Line: 48)
+//Too many arguments (Line: 49)

@@ -7,19 +7,22 @@ namespace stylist
 	{
 		public readonly List<CodeStyleIssue> Issues = new List<CodeStyleIssue>();
 
-		public void Report(string issueId, string description, AstNode node)
+		public void Report(IChecker checker, string description, AstNode node)
 		{
-			Report(issueId, description, new TextSpan(node));
+			Report(checker, description, new TextSpan(node));
 		}
 
-		public void Report(string issueId, string description, TextSpan span)
+		public void Report(IChecker checker, string description, TextSpan span)
 		{
-			Issues.Add(new CodeStyleIssue(issueId, description, span));
+			Issues.Add(new CodeStyleIssue(GetCheckerName(checker), description, span));
 		}
 
-		public void Check(bool condition, string issueId, string description, AstNode node)
+		private static string GetCheckerName(IChecker checker)
 		{
-			if (!condition) Report(issueId, description, node);
+			var checkerName = checker.GetType().Name;
+			if (checkerName.EndsWith("Checker"))
+				return checkerName.Substring(0, checkerName.Length - "Checker".Length);
+			return checkerName;
 		}
 	}
 

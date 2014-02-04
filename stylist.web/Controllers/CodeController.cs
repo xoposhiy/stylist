@@ -34,6 +34,23 @@ namespace stylist.web.Controllers
 			return RedirectToAction("Issues", new {id, profile});
 		}
 
+		public ActionResult Issues(string id, string profile)
+		{
+			string filename = GetFilename(id);
+			CheckerOption[] options = LoadCheckerOptions(SafeProfile(profile));
+			string code = System.IO.File.ReadAllText(filename).Split(new[] { delimiter }, 2, StringSplitOptions.None)[1];
+			CodeStyleIssue[] issues = CodeStyleIssues(code, options);
+			Highlight[] highlights = HighlightCode(code);
+			CodeLine[] lines = code.AsLines()
+				.Select((line, index) => BuildCodeLine(line, index, issues, highlights)).ToArray();
+			return View(new CodeIssuesModel {Lines = lines, Code = code, Profile = profile, CodeIssues = issues});
+		}
+
+		public ActionResult Explanations()
+		{
+			return View();
+		}
+
 		private static string SafeProfile(string profile)
 		{
 			return new string((profile ?? "").Where(char.IsLetter).ToArray());
@@ -45,18 +62,6 @@ namespace stylist.web.Controllers
 			string profilePath = HttpContext.Server.MapPath("~/App_Data/profiles/" + safeProfile + ".js");
 			if (!System.IO.File.Exists(profilePath)) return new CheckerOption[0];
 			return JsonConvert.DeserializeObject<CheckerOption[]>(System.IO.File.ReadAllText(profilePath));
-		}
-
-		public ActionResult Issues(string id, string profile)
-		{
-			string filename = GetFilename(id);
-			CheckerOption[] options = LoadCheckerOptions(SafeProfile(profile));
-			string code = System.IO.File.ReadAllText(filename).Split(new[] { delimiter }, 2, StringSplitOptions.None)[1];
-			CodeStyleIssue[] issues = CodeStyleIssues(code, options);
-			Highlight[] highlights = HighlightCode(code);
-			CodeLine[] lines = code.AsLines()
-					.Select((line, index) => BuildCodeLine(line, index, issues, highlights)).ToArray();
-			return View(new CodeIssuesModel {Lines = lines, Code = code, Profile = profile, CodeIssues = issues});
 		}
 
 		private Highlight[] HighlightCode(string code)

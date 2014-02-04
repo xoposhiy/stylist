@@ -1,17 +1,38 @@
-﻿using System.Linq;
+﻿using System;
+using System.Linq;
 using System.Web;
 using System.Web.Mvc;
+using System.Web.Mvc.Html;
+using stylist.web.Models;
 
-namespace stylist.web.Models
+namespace stylist.web.Helpers
 {
-	public static class CodeLineHtmlHelper
+	public static class CodeHtmlHelper
 	{
+		public static HtmlString CodeBadGoodBlock(this HtmlHelper html, string badCode, string goodCode)
+		{
+			return html.Partial("BadGoodBlock", Tuple.Create(badCode, goodCode));
+		}
+
+		public static HtmlString CodeBlock(this HtmlHelper html, string code)
+		{
+			var pre = new TagBuilder("pre");
+			pre.InnerHtml = string.Join("", code.Trim().AsLines().Select(WrapCodeLine));
+			return new HtmlString(pre.ToString());
+		}
+
 		public static HtmlString CodeLine(this HtmlHelper html, CodeLine line, int lineNo, string baseClass)
 		{
 			return new HtmlString(
-				"<span class='src-line'><a name='" + lineNo + "'></a>" 
+				WrapCodeLine(
+				"<a name='" + lineNo + "'></a>"
 				+ string.Join("", line.Spans.Select(span => FormatSpan(span, baseClass)))
-				+ "</span>\n");
+				));
+		}
+
+		private static string WrapCodeLine(string codeLine)
+		{
+			return "<span class='src-line'>" + codeLine + "</span>\n";
 		}
 
 		private static string FormatSpan(CodeSpan span, string baseClass)
@@ -24,8 +45,8 @@ namespace stylist.web.Models
 			var issue = span.Issues.FirstOrDefault();
 			if (issue != null)
 			{
-				code.MergeAttribute("title", issue.IssueId + " Issue");
-				code.MergeAttribute("data-content", issue.Description);
+				code.MergeAttribute("title", "Code Style Issue");
+				code.MergeAttribute("data-content", issue.Description + "<p><a target='blank' href='/Code/Explanations#"+issue.CheckerName+"'>Объяснение</a></p>");
 			}
 			code.SetInnerText(span.Text);
 			return code.ToString(TagRenderMode.Normal);

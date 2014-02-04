@@ -37,6 +37,7 @@ input[type="checkbox"].input-validation-error {
 	color: red;
 	font-weight: bold;
 	background-color: #DDF;
+	cursor:pointer;
 }
 
 .src-keyword {
@@ -61,6 +62,21 @@ h1 {
 	margin-top: 50px;
 }
 
+h2 {
+	padding-top: 10px;
+	padding-bottom: 10px;
+}
+
+@-webkit-keyframes target {
+	50% {
+		 background:antiquewhite;
+	}
+}
+
+h2:target {
+	-webkit-animation:target .5s 4 linear;
+}
+
 pre {
     counter-reset: line-numbering;
 }
@@ -72,3 +88,23 @@ pre .src-line::before {
     text-align: right;
     opacity: 0.5;
 }
+
+/* good-bad code samples*/
+.goodbad-bad h3 {
+	background-color: #fcc;
+	padding:3px;
+}
+.goodbad-good h3 {
+	background-color: #bfb;
+	padding:3px;
+}
+
+.goodbad-bad {
+	float:left;
+	width:48%;
+}
+
+.goodbad-good {
+	margin-left:52%;
+}
+

@@ -1,21 +1,12 @@
-using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using ICSharpCode.NRefactory.CSharp;
 
 namespace stylist.Checkers
 {
-	public class NamingLengthChecker : BaseAstChecker
+	public class NameLengthChecker : BaseAstChecker
 	{
-		public IntRange TypeNameLength { get; set; }
-		public IntRange ParameterNameLength { get; set; }
-		public IntRange EnumMemberNameLength { get; set; }
-		public IntRange FieldNameLength { get; set; }
-		public IntRange MethodNameLength { get; set; }
-		public IntRange VariableNameLength { get; set; }
-		public string[] AllowedShortVariableNames { get; set; }
-
-		public NamingLengthChecker()
+		public NameLengthChecker()
 		{
 			TypeNameLength = new IntRange(3, 30);
 			ParameterNameLength = new IntRange(3, 20);
@@ -26,15 +17,23 @@ namespace stylist.Checkers
 			AllowedShortVariableNames = new[]{"id", "x", "y", "z"};
 		}
 
+		public IntRange TypeNameLength { get; set; }
+		public IntRange ParameterNameLength { get; set; }
+		public IntRange EnumMemberNameLength { get; set; }
+		public IntRange FieldNameLength { get; set; }
+		public IntRange MethodNameLength { get; set; }
+		public IntRange VariableNameLength { get; set; }
+		public string[] AllowedShortVariableNames { get; set; }
+
 		private void AddIssues(IEnumerable<Identifier> ids, IntRange lengthConstraint)
 		{
 			foreach (var id in ids)
 			{
 				if (string.IsNullOrWhiteSpace(id.Name)) continue;
 				if (id.Name.Length < lengthConstraint.Min)
-					codeIssues.Report("Naming", "Too short name", id);
+					codeIssues.Report(this, "Too short name", id);
 				else if (id.Name.Length > lengthConstraint.Max)
-					codeIssues.Report("Naming", "Too long name", id);
+					codeIssues.Report(this, "Too long name", id);
 			}
 		}
 

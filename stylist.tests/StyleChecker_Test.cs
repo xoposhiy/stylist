@@ -33,7 +33,7 @@ namespace stylist.tests
 ]");
 			BaseAstChecker[] checkers = new StyleChecker(Speller.Instance, options).Checkers.OfType<BaseAstChecker>().ToArray();
 			Assert.AreEqual(10, checkers.OfType<MethodLengthChecker>().First().MaxStatementsPerMethod);
-			Assert.AreEqual(new IntRange(1, 1), checkers.OfType<NamingLengthChecker>().First().TypeNameLength);
+			Assert.AreEqual(new IntRange(1, 1), checkers.OfType<NameLengthChecker>().First().TypeNameLength);
 			CollectionAssert.IsEmpty(checkers.OfType<NamingCaseChecker>());
 		}
 
@@ -46,7 +46,7 @@ namespace stylist.tests
 		[Test]
 		public void NamingLength()
 		{
-			RunTest("NamingLength", new NamingLengthChecker());
+			RunTest("NamingLength", new NameLengthChecker());
 		}
 
 		[Test]
@@ -58,25 +58,25 @@ namespace stylist.tests
 		[Test]
 		public void Naming()
 		{
-			RunTest("Naming", new NamingChecker());
+			RunTest("Naming", new PredictableNamingChecker());
 		}
 
 		[Test]
 		public void Formatting()
 		{
-		     RunTest("Formatting", new FormattingChecker());
+		     RunTest("Formatting", new IndentationChecker());
 		}
 
 		[Test]
 		public void FormattingLambda()
 		{
-			RunTest("FormattingLambda", new FormattingChecker());
+			RunTest("FormattingLambda", new IndentationChecker());
 		}
 
 		[Test]
 		public void FormattingKR()
 		{
-			RunTest("FormattingKR", new FormattingChecker());
+			RunTest("FormattingKR", new IndentationChecker());
 		}
 	
 		[Test]
@@ -88,10 +88,16 @@ namespace stylist.tests
 		[Test]
 		public void ReturnBool()
 		{
-			RunTest("ReturnBool", new ReturnBoolChecker());
+			RunTest("ReturnBool", new RedundantIfChecker());
 		}
 
-		private static void RunTest(string testName, params BaseAstChecker[] checkers)
+		[Test]
+		public void WorstCodeEver()
+		{
+			RunTest("WorstCodeEver", StyleChecker.CreateBaseCheckers(Speller.Instance).ToArray());
+		}
+
+		private static void RunTest(string testName, params IChecker[] checkers)
 		{
 			TestCase testCase = TestCases.Get(testName);
 			var styleChecker = new StyleChecker(checkers);

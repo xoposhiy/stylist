@@ -4,7 +4,7 @@ using ICSharpCode.NRefactory.CSharp;
 
 namespace stylist.Checkers
 {
-	public class FormattingChecker : BaseAstChecker
+	public class IndentationChecker : BaseAstChecker
 	{
 		private List<AstNode> firstInLine;
 
@@ -37,8 +37,8 @@ namespace stylist.Checkers
 			if (block == null) return;
 			if (!firstInLine.Contains(block)) return;
 			var parent = FindStatementIndentationParent(block);
-			if (parent != null)
-				codeIssues.Check(parent.StartLocation.Column == block.StartLocation.Column, "Formatting", "Do not indent blocks", block);
+			if (parent != null && parent.StartLocation.Column != block.StartLocation.Column)
+				codeIssues.Report(this, "Do not indent blocks", block);
 		}
 
 		private AstNode FindStatementIndentationParent(Statement block)
@@ -58,28 +58,19 @@ namespace stylist.Checkers
 			var prevSiblingStatement = statement.PrevSiblings().FirstOrDefault(s => s is Statement);
 			if (statement.Parent is BlockStatement && prevSiblingStatement != null)
 			{
-				codeIssues.Check(
-					isFirstInLine && SameIndentation(statement, prevSiblingStatement),
-					"Formatting", "Statements in block should have same indentation",
-					statement);
+				if (!(isFirstInLine && SameIndentation(statement, prevSiblingStatement)))
+					codeIssues.Report(this, "Statements in block should have same indentation", statement);
 			}
 			else if (isFirstInLine)
 			{
 				var parent = FindStatementIndentationParent(statement);
-				if (parent != null)
-					codeIssues.Check(Indented(statement, parent),
-						"Formatting",
-						"Missing indentation",
-						statement);
+				if (parent != null && !Indented(statement, parent))
+					codeIssues.Report(this, "Missing indentation", statement);
 			}
 			else if (statement.Parent is BlockStatement)
 			{
-				codeIssues.Check(
-					!statement.NextSiblings().Any(s => s is Statement),
-					"Formatting",
-					"Every statement in block should be placed on its own line",
-					statement
-					);
+				if (statement.NextSiblings().Any(s => s is Statement))
+					codeIssues.Report(this, "Every statement in block should be placed on its own line", statement);
 			}
 		}
 
@@ -109,25 +100,14 @@ namespace stylist.Checkers
 		private void CheckEntityFormatting(EntityDeclaration entity)
 		{
 			if (entity == null) return;
-			if (!(entity is Accessor))
-				codeIssues.Check(
-					firstInLine.Contains(entity),
-					"Formatting",
-					"Entity declaration should start on the separate line",
-					entity);
+			if (!(entity is Accessor) && !firstInLine.Contains(entity))
+				codeIssues.Report(this, "Entity declaration should start on the separate line", entity);
 			var prevSiblingEntity = entity.PrevSiblings().FirstOrDefault(s => s is EntityDeclaration);
-			if (prevSiblingEntity != null && !(entity is Accessor))
-				codeIssues.Check(
-					SameIndentation(entity, prevSiblingEntity),
-					"Formatting",
-					"Sibling entities should have same indentation",
-					entity);
+			if (prevSiblingEntity != null && !(entity is Accessor) && !SameIndentation(entity, prevSiblingEntity))
+				codeIssues.Report(this, "Sibling entities should have same indentation", entity);
 			var parent = FindEntityIndentationParent(entity);
 			if (parent != null && !Indented(entity, parent))
-				codeIssues.Report(
-					"Formatting",
-					"Missing indentation",
-					entity);
+				codeIssues.Report(this, "Missing indentation", entity);
 		}
 
 		private AstNode FindEntityIndentationParent(EntityDeclaration entity)

@@ -20,7 +20,7 @@ namespace stylist.tests
 		[Test]
 		public void Test1()
 		{
-			var ch = new NamingLengthChecker();
+			var ch = new NameLengthChecker();
 			JsonConvert.PopulateObject("{TypeNameLength: {Min: 1, Max: 1}}", ch);
 			Console.WriteLine(ch.TypeNameLength);
 		}

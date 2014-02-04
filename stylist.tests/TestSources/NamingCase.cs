@@ -20,11 +20,11 @@
 		}
 	}
 }
-//Naming.Case: Use 'CamelCase' naming here (Line: 5)
-//Naming.Case: Use 'CamelCase' naming here (Line: 9)
-//Naming.Case: Use 'CamelCase' naming here (Line: 9)
-//Naming.Case: Use 'camelCase' naming here (Line: 11)
-//Naming.Case: Use 'CamelCase' naming here (Line: 13)
-//Naming.Case: Use 'CamelCase' naming here (Line: 16)
-//Naming.Case: Use 'camelCase' naming here (Line: 16)
-//Naming.Case: Use 'camelCase' naming here (Line: 18)
+//Use PascalCaseNaming here (Line: 5)
+//Use PascalCaseNaming here (Line: 9)
+//Use PascalCaseNaming here (Line: 9)
+//Use camelCaseNaming here (Line: 11)
+//Use PascalCaseNaming here (Line: 13)
+//Use PascalCaseNaming here (Line: 16)
+//Use camelCaseNaming here (Line: 16)
+//Use camelCaseNaming here (Line: 18)

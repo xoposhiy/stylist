@@ -72,8 +72,8 @@
     <Compile Include="BaseTextChecker.cs" />
     <Compile Include="CheckerOption.cs" />
     <Compile Include="CheckerRunner.cs" />
-    <Compile Include="Checkers\ReturnBoolChecker.cs" />
-    <Compile Include="Checkers\FormattingChecker.cs" />
+    <Compile Include="Checkers\RedundantIfChecker.cs" />
+    <Compile Include="Checkers\IndentationChecker.cs" />
     <Compile Include="Checkers\ArgumentsNumberChecker.cs" />
     <Compile Include="CodeSpanType.cs" />
     <Compile Include="CodeStyleIssue.cs" />
@@ -81,7 +81,7 @@
     <Compile Include="IChecker.cs" />
     <Compile Include="IntRange.cs" />
     <Compile Include="Checkers\MethodLengthChecker.cs" />
-    <Compile Include="Checkers\NamingChecker.cs" />
+    <Compile Include="Checkers\PredictableNamingChecker.cs" />
     <Compile Include="Checkers\NamingLengthChecker.cs" />
     <Compile Include="Checkers\NamingCaseChecker.cs" />
     <Compile Include="Checkers\LineLengthChecker.cs" />

@@ -37,17 +37,17 @@ namespace stylist
 		{
 		}
 
-		private static IEnumerable<IChecker> CreateBaseCheckers(Speller speller)
+		public static IEnumerable<IChecker> CreateBaseCheckers(Speller speller)
 		{
 			yield return new SpellChecker(speller);
 			yield return new NamingCaseChecker();
-			yield return new NamingLengthChecker();
-			yield return new NamingChecker();
+			yield return new NameLengthChecker();
+			yield return new PredictableNamingChecker();
 			yield return new MethodLengthChecker();
-			yield return new FormattingChecker();
+			yield return new IndentationChecker();
 			yield return new LineLengthChecker();
 			yield return new ArgumentsNumberChecker();
-			yield return new ReturnBoolChecker();
+			yield return new RedundantIfChecker();
 		}
 
 		public StyleChecker(params IChecker[] checkers)

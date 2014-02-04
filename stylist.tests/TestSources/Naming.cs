@@ -19,6 +19,6 @@ class MyClass
 		
 	}
 }
-//Naming.Verbs: 'Get' method without return value is confusing (Line: 5)
-//Naming.Verbs: 'Get' method without return value is confusing (Line: 12)
-//Naming.Verbs: 'Set' method without arguments is confusing (Line: 17)
+//'Get' method without return value is confusing (Line: 5)
+//'Get' method without return value is confusing (Line: 12)
+//'Set' method without arguments is confusing (Line: 17)

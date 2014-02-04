@@ -48,7 +48,9 @@ namespace stylist.Checkers
 			nameToken = nameToken ?? declaration.NameToken;
 			int count = declaration.Descendants.Count(node => node is Statement);
 			if (count > MaxStatementsPerMethod)
-				codeIssues.Report("Complexity", "Too long method. Try to divide it into smaller parts.", nameToken);
+				codeIssues.Report(this, "Too long method. Try to divide it into smaller parts.", nameToken);
 		}
+		public static string Id = "MethodLength";
+
 	}
 }

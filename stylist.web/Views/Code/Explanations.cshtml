@@ -1,0 +1,186 @@
+﻿<h1>Код должен быть чистым!</h1>
+
+TODO Мотивирующие штуки
+
+<h2 id="Indentation">Отступы</h2>
+<p>Горизонтальные отступы помогают читающему увидеть структуру кода.</p>
+<p>Обычно IDE помогает вам делать отступы, но это не снимает с вас обязанности поддерживать их там, где IDE не справилась.</p>
+<p><code>Ctrl+K,D</code> — выравнивает код правильно в Visual Studio</p>
+@Html.CodeBadGoodBlock(@"
+if (isPrime(n))
+if (n>2)
+Console.WriteLine(n);
+else {bad++; n++}
+",
+@"
+if (isPrime(n))
+	if (n>2)
+		Console.WriteLine(n);
+	else
+	{
+		bad++;
+		n++
+	}
+")
+
+<h2 id="LineLength">Длинные строки</h2>
+
+<p>Длинные стоки — зло. Они затрудняют чтение кода. 
+	Длинные выражения лучше разбить на несколько, введя новые переменные или новые функции.</p> 
+<p>Обычно используют ограничение в 80—120 символов на стоку.</p>
+<p>Интересное обсуждение этого правила <a href='http://habrahabr.ru/post/177287/'>случилось тут</a>.</p>
+
+@Html.CodeBadGoodBlock(@"
+DrawSegment(CalculateX(...), CalculateY(...), CalculateX(...), CalculateY(...))",
+@"
+var x1 = CalculateX(...);
+var y1 = CalculateY(...);
+var x2 = CalculateX(...);
+var y2 = CalculateY(...);
+DrawSegment(x1, y1, x2, y2);
+")
+
+
+<h2 id="case">Общепринятый для C# стиль именования</h2>
+<p>
+	В C# принято называть идентификаторы в стилях <a href='http://ru.wikipedia.org/wiki/CamelCase'>PascalCase и camelCase</a>,
+	в которых идентификаторы из нескольких слов пишутся слитно, без разделителей, 
+	но каждое следующее слово начинается с большой буквы.
+<p><a href="http://msdn.microsoft.com/en-us/library/x2dbyw72(v=vs.71).aspx">Тут</a> можно посмотреть официальные рекомендации от Microsoft по использованию этих стилей.</p>
+<p>А ниже перечислены наиболее общепринятые правила:</p>
+<table class="table table-bordered">
+	<tr><th>PascalCase (первая буква большая)</th><th>camelCase (первая буква маленькая)</th></tr>
+	<tr>
+		<td>
+			<ul>
+				<li>Параметры generic-типов и generic-методов <code>List&lt;T></code>, <code>Where&lt;TItem>(...)</code></li>
+				<li>Типы <code>RobotController</code>, <code>ChessPiece</code>, <code>MazeCellType</code></li>
+				<li>Публичные члены типов <code>robot.MoveTo(x, y)</code>, <code>point.X</code>, <code>list.Add(42)</code></li>
+			</ul>
+		</td>
+		<td>
+			<ul>
+				<li>Переменные <code>rowIndex</code>, <code>expectedValue</code></li>
+				<li>Аргументы функций <code>SetName(stirng name)</code>, <code>new Vector(int x, int y)</code></li>
+				<li>Private-члены типов</li>
+			</ul>
+		</td>
+	</tr>
+</table>
+
+@Html.CodeBadGoodBlock(@"
+public class robot
+{
+	private int _x, _y;
+	
+	public void move_to(int X, int Y){
+		//...
+	}
+}
+",
+@"
+public class Robot
+{
+	private int x, y;
+	
+	public void MoveTo(int x, int y){
+		//...
+	}
+}
+")
+
+<h2 id="Spell">Понятные имена</h2>
+
+<p>Имена должны состоять из корректных английских слов. Избегайте сокращений и кодирований.</p>
+<p>Потратить немного времени на выдумывание удачного имени — это нормально. С опытом хорошие имена будут рождаться легче.</p>
+
+@Html.CodeBadGoodBlock(@"
+DtRcrd
+dsc
+kol
+flag
+i, j
+bOk
+sValue
+",
+@"
+DataRecord
+description
+count
+isLetter
+rowIndex, colIndex
+ok,
+value
+")
+
+<h2 id="PredictableNaming">Адекватные имена</h2>
+
+<p>Имена функций не должны противоречить их сигнатурам. Например, метод GetXXX не возвращающий ничего легко введет читающего в ступор и недоумение.</p>
+@Html.CodeBadGoodBlock(@"
+void GetName();
+void CreateExpression(...)
+int SetCount();
+",
+@"
+string GetName();
+Expression CreateExpression(...)
+void SetCount(int newCount);
+")
+
+
+<h2 id="NameLength">Длина имени</h2>
+
+<p>Длины имен должны соответствовать размеру области видимости этого имени — чем больше область видимости, тем больше информации должно содержать имя.</p>
+<p><code>i</code> — приемлемое имя для переменной цикла с однострочным телом. Но если тело цикла велико, лучше использовать более содержательные имя, например, <code>colIndex</code> или <code>lineNumber</code></p>
+<p><code>text</code>, <code>hostName</code> — хорошие имена для аргументов функции</p>
+<p><code>HtmlString</code>, <code>HttpPageDownloader</code> — хорошие имена для классов</p>
+
+
+<h2 id="ArgumentsNumber">Список аргументов</h2>
+<p>Чем меньше аргументов у функции, тем она понятнее и удобнее в использовании. Более четырех аргументов — это уже перебор.</p>
+<p>Как бороться с длинными списками аргументов? Иногда несколько аргументов логически можно объединить в один объект. Иногда часть аргументов метода можно сделать полями класса.</p>
+@Html.CodeBadGoodBlock(@"
+bool Intersects(
+	int ax1, int ay1, int ax2, int ay2,
+	int bx1, int by1, int bx2, int by2)
+
+",
+	@"
+bool Intersects(Segment a, Segment b)
+
+class Segment
+{
+	...
+	bool IntersectsWith(Segment other)
+")
+
+<h2 id="RedundantIf">Булевы выражения</h2>
+<p>Логические условия — это полноценные выражения булева типа. Их можно сохранять в переменные типа bool, возвращать из функции или передавать в другую функцию.
+	Это очевидное знание почему-то используют не все.</p>
+@Html.CodeBadGoodBlock(@"
+if (cell == CellType.Empty) return true;
+else return false;
+
+if (IsPrimeNumber(p) == false) notPrime = true;
+else notPrime = false;
+
+//Известная шутка про индусский код:
+if (flag == true) return true;
+else if (flag == false) return false;
+else /* hmmm... */ return !true && !false;
+",
+	@"
+return cell == CellType.Empty;
+
+
+notPrime = !IsPrimeNumber(p);
+
+
+return flag;
+"
+)
+
+
+<h2 id="MethodLength">Длинные методы</h2>
+
+TODO

@@ -43,8 +43,8 @@ namespace A
 		}
 	}
 }
-//Formatting: Missing indentation (Line: 32)
-//Formatting: Sibling entities should have same indentation (Line: 35)
-//Formatting: Missing indentation (Line: 35)
-//Formatting: Missing indentation (Line: 40)
-//Formatting: Do not indent blocks (Line: 41)
+//Missing indentation (Line: 32)
+//Sibling entities should have same indentation (Line: 35)
+//Missing indentation (Line: 35)
+//Missing indentation (Line: 40)
+//Do not indent blocks (Line: 41)

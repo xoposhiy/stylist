@@ -51,9 +51,9 @@ namespace A
 		}
 	}
 }
-//CanBeSimplified: Use return instead of if statement (Line: 9)
-//CanBeSimplified: Use return instead of if statement (Line: 14)
-//CanBeSimplified: Use return instead of if statement (Line: 19)
-//CanBeSimplified: Use return instead of if statement (Line: 24)
-//CanBeSimplified: Use return instead of if statement (Line: 29)
-//CanBeSimplified: Use return instead of if statement (Line: 34)
+//Use return instead of if statement (Line: 9)
+//Use return instead of if statement (Line: 14)
+//Use return instead of if statement (Line: 19)
+//Use return instead of if statement (Line: 24)
+//Use return instead of if statement (Line: 29)
+//Use return instead of if statement (Line: 34)

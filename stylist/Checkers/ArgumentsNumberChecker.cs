@@ -15,9 +15,10 @@ namespace stylist.Checkers
 			var parameterDeclarations = parameterDeclaration.PrevSiblings().OfType<ParameterDeclaration>();
 			var parametersCount = parameterDeclarations.Count();
 			if (parametersCount >= MaxArgumentsCount)
-				codeIssues.Report("ArgumentsNumber", "Too many arguments", parameterDeclaration);
+				codeIssues.Report(this, "Too many arguments", parameterDeclaration);
 			base.VisitParameterDeclaration(parameterDeclaration);
 		}
+		public static string Url = "http://www.slideshare.net/xoposhiy/clean-ode/8";
 
 		public int MaxArgumentsCount { get; set; }
 	}

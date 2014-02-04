@@ -29,4 +29,4 @@ class Class
 	}
 }
 
-//Formatting: Missing indentation (Line: 26)
+//Missing indentation (Line: 26)
