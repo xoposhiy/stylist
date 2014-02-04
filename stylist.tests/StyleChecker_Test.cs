@@ -29,7 +29,7 @@ namespace stylist.tests
 @"[
 	{Checker: 'MethodLength', Options: {MaxStatementsPerMethod: 10} },
 	{Checker: 'NamingCase' },
-	{Checker: 'NamingLength', Options: {TypeNameLength: {Min:1, Max:1}} }
+	{Checker: 'NameLength', Options: {TypeNameLength: {Min:1, Max:1}} }
 ]");
 			BaseAstChecker[] checkers = new StyleChecker(Speller.Instance, options).Checkers.OfType<BaseAstChecker>().ToArray();
 			Assert.AreEqual(10, checkers.OfType<MethodLengthChecker>().First().MaxStatementsPerMethod);

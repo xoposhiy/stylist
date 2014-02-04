@@ -82,7 +82,7 @@
     <Compile Include="IntRange.cs" />
     <Compile Include="Checkers\MethodLengthChecker.cs" />
     <Compile Include="Checkers\PredictableNamingChecker.cs" />
-    <Compile Include="Checkers\NamingLengthChecker.cs" />
+    <Compile Include="Checkers\NameLengthChecker.cs" />
     <Compile Include="Checkers\NamingCaseChecker.cs" />
     <Compile Include="Checkers\LineLengthChecker.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
