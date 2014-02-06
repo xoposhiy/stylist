@@ -1,3 +1,18 @@
 ﻿@using stylist.web.Models
 @model CodeModel
+
+<h1>О проекте</h1>
+
+<div class="row">
+	<div class="col col-lg-8">
+		<p>
+			Code Stylist проверит базовые правила хорошего C# кода и объяснит, что хорошо, что плохо и почему.
+			Он был разработан для проверки студенческих домашних работ в рамках курса «Основы программирования» в УрФУ.
+		</p>
+		<p>
+			Если у вас есть идеи, дополнительных проверок, которые несложно реализовать — <a href="mailto:xoposhiy@mail.ru">пишите</a>, а ещё лучше, присылайте <a href="https://github.com/xoposhiy/stylist">pull request</a>.
+		</p>
+	</div>
+</div>
+
 @Html.Partial("CheckYourCodeForm", Model)

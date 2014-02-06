@@ -3,12 +3,11 @@
 	<div class="col-md-12">
 		@using (Html.BeginForm("Check", "Code", new {profile=Model.Profile}, FormMethod.Post))
 		{
-			<h1>Paste your C# code here</h1>
+			<h1>C# code please!</h1>
 			<div class="form-group">
 				@Html.TextArea("code", Model.Code, new { rows = 20, style = "form-control" })
 			</div>
-			<button class="btn btn-lg btn-primary" type="submit">Check Style</button>
-			<div class="text-muted">Profile: @Model.Profile</div>
+			<button class="btn btn-lg btn-primary" type="submit">Проверить!</button>
 		}
 	</div>
 </div>

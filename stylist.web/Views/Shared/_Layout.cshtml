@@ -8,16 +8,21 @@
 	@Scripts.Render("~/bundles/modernizr")
 </head>
 <body>
+	<a href="https://github.com/xoposhiy/stylist"><img style="position: absolute; top: 0; right: 0; border: 0; z-index:9999" src="https://s3.amazonaws.com/github/ribbons/forkme_right_red_aa0000.png" alt="Fork me on GitHub"></a>
 	<div class="container body-content">
+		<nav class="navbar navbar-default" role="navigation">
+			@Html.ActionLink("Code Stylist", "Index", "Code", null, new{@class="navbar-brand"})
+			<ul class="nav navbar-nav">
+				<li>@Html.ActionLink("Правила хорошего кода", "Explanations", "Code")</li>
+				<li><a href="mailto:xoposhiy@mail.ru">Написать автору</a></li>
+			</ul>
+		</nav>
 		@RenderBody()
-		<hr />
-		<footer>
-			<p class="text-muted">Developed in Ural Federal University in 2014. <a href="mailto:xoposhiy@mail.ru">Contact author</a></p>
-		</footer>
 	</div>
 
 	@Scripts.Render("~/bundles/jquery")
 	@Scripts.Render("~/bundles/bootstrap")
 	@RenderSection("scripts", required: false)
+	
 </body>
 </html>

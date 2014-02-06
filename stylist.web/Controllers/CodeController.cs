@@ -18,6 +18,7 @@ namespace stylist.web.Controllers
 
 		public ActionResult Index(string profile)
 		{
+			
 			return View(new CodeModel{Profile=SafeProfile(profile)});
 		}
 

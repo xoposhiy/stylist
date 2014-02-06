@@ -2,7 +2,7 @@
 @model CodeIssuesModel
 <div class="row">
 	<div class="col-md-12">
-		<h1>Code Style Issues</h1>
+		<h1>Проблемы в коде:</h1>
 		<ul>
 			@foreach (var codeIssue in Model.CodeIssues.OrderBy(i => i.Span.Line))
 			{
