@@ -33,23 +33,23 @@ input[type="checkbox"].input-validation-error {
     display: none;
 }
 
-.src-error {
+.src.error {
 	color: red;
 	font-weight: bold;
 	background-color: #DDF;
 	cursor:pointer;
 }
 
-.src-keyword {
+.src.keyword {
 	font-weight: bold;
 }
 
-.src-comment {
+.src.comment {
 	color: grey;
 	font-style: italic;
 }
 
-.src-string {
+.src.string {
 	color: darkred;
 }
 

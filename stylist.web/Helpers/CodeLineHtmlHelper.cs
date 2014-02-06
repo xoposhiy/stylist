@@ -21,12 +21,12 @@ namespace stylist.web.Helpers
 			return new HtmlString(pre.ToString());
 		}
 
-		public static HtmlString CodeLine(this HtmlHelper html, CodeLine line, int lineNo, string baseClass)
+		public static HtmlString CodeLine(this WebViewPage page, CodeLine line, int lineNo, string baseClass)
 		{
 			return new HtmlString(
 				WrapCodeLine(
 				"<a name='" + lineNo + "'></a>"
-				+ string.Join("", line.Spans.Select(span => FormatSpan(span, baseClass)))
+				+ string.Join("", line.Spans.Select(span => page.FormatSpan(span, baseClass)))
 				));
 		}
 
@@ -35,30 +35,32 @@ namespace stylist.web.Helpers
 			return "<span class='src-line'>" + codeLine + "</span>\n";
 		}
 
-		private static string FormatSpan(CodeSpan span, string baseClass)
+		private static string FormatSpan(this WebViewPage page, CodeSpan span, string baseClass)
 		{
 			var code = new TagBuilder("code");
 			code.AddCssClass(baseClass);
-			var additionalClass = GetClassName(span.Type);
+			var additionalClass = GetClassName(span);
 			if (additionalClass != null)
-				code.AddCssClass(baseClass + "-" + additionalClass);
+				code.AddCssClass(additionalClass);
 			var issue = span.Issues.FirstOrDefault();
 			if (issue != null)
 			{
 				code.MergeAttribute("title", "Code Style Issue");
-				code.MergeAttribute("data-content", issue.Description + "<p><a target='blank' href='/Code/Explanations#"+issue.CheckerName+"'>Объяснение</a></p>");
+				var description = string.Format("{0}<p><a target='blank' href='{1}#{2}'>Объяснение</a></p>", issue.Description, page.Url.Action("Explanations", "Code"), issue.CheckerName);
+				code.MergeAttribute("data-content", description);
 			}
 			code.SetInnerText(span.Text);
 			return code.ToString(TagRenderMode.Normal);
 		}
 
-		private static string GetClassName(CodeSpanType type)
+		public static string GetClassName(this CodeSpan span)
 		{
+			var type = span.Type;
 			if (type == CodeSpanType.Error) return "error";
 			if (type == CodeSpanType.Comment) return "comment";
 			if (type == CodeSpanType.String) return "string";
 			if (type == CodeSpanType.Keyword) return "keyword";
-			return null;
+			return "";
 		}
 	}
 }

@@ -13,7 +13,7 @@
 		@for (int index = 0; index < Model.Lines.Length; index++)
 		{
 			var line = Model.Lines[index];
-			@Html.CodeLine(line, index+1, "src")
+			@(this.CodeLine(line, index + 1, "src"))
 		}
 		</pre>
 	</div>
@@ -24,6 +24,6 @@
 @section scripts
 {
 	<script>
-		$(".src-error").popover({trigger:"click", placement:"top", html:true});
+		$(".src.error").popover({trigger:"click", placement:"top", html:true});
 	</script>
 }
