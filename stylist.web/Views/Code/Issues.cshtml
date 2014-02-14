@@ -24,6 +24,10 @@
 @section scripts
 {
 	<script>
-		$(".src.error").popover({trigger:"click", placement:"top", html:true});
+		var $errors = $(".src.error");
+		$errors.popover({ trigger: "click", placement: "top", html: true });
+		$errors.on('click', function (e) {
+			$errors.not(this).popover('hide');
+		});
 	</script>
 }
