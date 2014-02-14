@@ -13,7 +13,7 @@ namespace stylist
 		}
 
 		public TextSpan(TextLocation start, TextLocation end)
-			: this(start.Line-1, start.Column-1, end.Column-1)
+			: this(start.Line-1, start.Column-1, end.Line == start.Line ? end.Column-1 : int.MaxValue)
 		{
 		}
 
