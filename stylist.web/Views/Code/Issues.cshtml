@@ -2,13 +2,20 @@
 @model CodeIssuesModel
 <div class="row">
 	<div class="col-md-12">
-		<h1>Проблемы в коде:</h1>
-		<ul>
-			@foreach (var codeIssue in Model.CodeIssues.OrderBy(i => i.Span.Line))
-			{
-				<li><a href="#@codeIssue.Span.Line">@codeIssue</a></li>
-			}
-		</ul>
+		@if (Model.CodeIssues.Any())
+		{
+			<h1>Проблемы в коде:</h1>
+			<ul>
+				@foreach (var codeIssue in Model.CodeIssues.OrderBy(i => i.Span.Line))
+				{
+					<li><a href="#@codeIssue.Span.Line">@codeIssue</a></li>
+				}
+			</ul>
+		}
+		else
+		{
+			<h1>Идельный код! :-)</h1>
+		}
 		<pre>
 		@for (int index = 0; index < Model.Lines.Length; index++)
 		{
