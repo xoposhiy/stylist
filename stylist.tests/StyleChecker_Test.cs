@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using Newtonsoft.Json;
 using NUnit.Framework;
@@ -117,12 +118,20 @@ namespace stylist.tests
 //					.FirstOrDefault());
 //			new FormattingChecker().ReportErrorsToConsole(@"d:\work\stylist\NREf", showFiles: false, showErrors: false);
 //			new FormattingChecker().ReportErrorsToConsole(@"d:\work\stylist\NREf", showFiles: true, showErrors: true);
-			new ArgumentsNumberChecker().ReportErrorsToConsole(@"d:\work\stylist", showFiles: true, showErrors: true);
+			new ArgumentsNumberChecker().ReportErrorsToConsole(@"d:\work\stylist.tests", showFiles: true, showErrors: true);
 			//old scheme: 313 2936
 			//new scheme: 352 3149
 			//+ifelse and for: 113 657
 			// ignore spaces mixing with tabs: 68 494
 		}
 
+		[Test]
+		public void SmokeTest()
+		{
+			var styleChecker = new StyleChecker(Speller.Instance);
+			var codeIssues = Directory.EnumerateFiles(@"d:\work\stylist.tests", "*.cs", SearchOption.AllDirectories)
+				.SelectMany(file => styleChecker.Check(File.ReadAllText(file))).ToList();
+			Console.WriteLine(codeIssues.Count);
+		}
 	}
 }

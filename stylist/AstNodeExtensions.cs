@@ -54,9 +54,14 @@ namespace stylist
 			return
 				node.As((ForStatement f) => f.EmbeddedStatement)
 				?? node.As((ForeachStatement s) => s.EmbeddedStatement)
+				?? node.As((WhileStatement s) => s.EmbeddedStatement)
+				?? node.As((DoWhileStatement s) => s.EmbeddedStatement)
 				?? node.As((MethodDeclaration s) => s.Body)
 				?? node.As((AnonymousMethodExpression s) => s.Body)
 				?? node.As((ConstructorDeclaration s) => s.Body)
+				?? node.As((UsingStatement s) => s.EmbeddedStatement)
+				?? node.As((CheckedStatement s) => s.Body)
+				?? node.As((UncheckedStatement s) => s.Body)
 				?? node.As((DestructorDeclaration s) => s.Body);
 		}
 

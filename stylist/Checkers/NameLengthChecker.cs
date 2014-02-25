@@ -82,7 +82,8 @@ namespace stylist.Checkers
 				AddIssues(variableDeclarationStatement.Variables.Where(v => !IsAllowedVariableName(v.Name)).Select(v => v.NameToken), VariableNameLength);
 			else
 			{
-				int size = parent.Block().StatementsCount();
+				var body = parent.Block();
+				int size = body == null ? 0 : body.StatementsCount(); 
 				AddIssues(variableDeclarationStatement.Variables.Where(v => !IsAllowedVariableName(v.Name)).Select(v => v.NameToken),
 					size > 2 ? VariableNameLength : VariableNameLength.WithMin(1));
 			}

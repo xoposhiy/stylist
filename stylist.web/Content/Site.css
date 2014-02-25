@@ -108,3 +108,6 @@ pre .src-line::before {
 	margin-left:52%;
 }
 
+#vk_auth {
+	float:right;
+}

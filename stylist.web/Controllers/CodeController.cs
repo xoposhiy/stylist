@@ -4,6 +4,7 @@ using System.Linq;
 using System.Security.Cryptography;
 using System.Text;
 using System.Text.RegularExpressions;
+using System.Web;
 using System.Web.Mvc;
 using ICSharpCode.NRefactory.CSharp;
 using Newtonsoft.Json;
@@ -18,21 +19,34 @@ namespace stylist.web.Controllers
 
 		public ActionResult Index(string profile)
 		{
-			
-			return View(new CodeModel{Profile=SafeProfile(profile)});
+
+			return View(new CodeModel { Profile = SafeProfile(profile) });
 		}
 
 		[ValidateInput(false)]
 		public ActionResult Check(string code, string profile)
 		{
-			string id = CalculateHash(code);
+			string uid = GetUid();
+			string id = uid + "_" + CalculateHash(code);
 			string filename = GetFilename(id);
 			CheckerOption[] options = LoadCheckerOptions(SafeProfile(profile));
 			CodeStyleIssue[] issues = CodeStyleIssues(code, options);
-			var dateTime = new[]{DateTime.Now.ToString()};
+			var dateTime = new[] { DateTime.Now.ToString() };
 			string issuesText = string.Join("\r\n", dateTime.Concat(issues.Select(issue => issue.ToString())));
 			System.IO.File.WriteAllText(filename, issuesText + delimiter + code);
-			return RedirectToAction("Issues", new {id, profile});
+			return RedirectToAction("Issues", new { id, profile });
+		}
+
+		private string GetUid()
+		{
+			if (Request.Cookies["UID"] != null) return Request.Cookies["UID"].Value;
+			var value = Guid.NewGuid().ToString("N");
+			Response.Cookies.Add(new HttpCookie("UID")
+			{
+				Expires = DateTime.Now + TimeSpan.FromDays(1000),
+				Value = value,
+			});
+			return value;
 		}
 
 		public ActionResult Issues(string id, string profile)
@@ -44,7 +58,7 @@ namespace stylist.web.Controllers
 			Highlight[] highlights = HighlightCode(code);
 			CodeLine[] lines = code.AsLines()
 				.Select((line, index) => BuildCodeLine(line, index, issues, highlights)).ToArray();
-			return View(new CodeIssuesModel {Lines = lines, Code = code, Profile = profile, CodeIssues = issues});
+			return View(new CodeIssuesModel { Lines = lines, Code = code, Profile = profile, CodeIssues = issues });
 		}
 
 		public ActionResult Explanations()
@@ -92,8 +106,8 @@ namespace stylist.web.Controllers
 		private CodeLine BuildCodeLine(string line, int lineIndex, CodeStyleIssue[] issues, Highlight[] highlights)
 		{
 			return new CodeLine(
-				line, 
-				issues.Where(issue => issue.Span.Line == lineIndex), 
+				line,
+				issues.Where(issue => issue.Span.Line == lineIndex),
 				highlights.Where(h => h.Span.Line == lineIndex));
 		}
 	}
